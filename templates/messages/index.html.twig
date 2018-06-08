@@ -1,0 +1,35 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'messages.label'|trans }}{% endblock %}
+
+{% block content %}
+    {% if groups|length > 0 %}
+        {% for group in groups %}
+            <div class="contentbox">
+                <h4>{{ group.key.name }}</h4>
+
+                {% for message in group.items %}
+                    <div class="bs-callout comment">
+                        <p>{{ message.content }}</p>
+                        <span class="details">
+                            <i class="fa fa-user"></i> <a href="{{ path('show_user', { id: message.createdBy.id }) }}">{{ message.createdBy|user }}</a>
+                            <i class="fa fa-clock-o"></i> {{ message.createdAt|shortdate }}
+                        </span>
+                        {% if is_granted('remove', message) %}
+                            <div>
+                                <a href="{{ path('remove_message', { id: message.id }) }}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+    <div class="bs-callout bs-callout-info">
+        <h4>{{ 'info.label'|trans }}</h4>
+        <p>{{ 'messages.empty'|trans }}</p>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% if is_granted('change_status', event) %}
+<form action="{{ path('change_status', { id: event.id }) }}" method="post">
+    <input type="hidden" name="_csrf_token" value="{{ csrfToken }}" />
+
+    <select name="status" class="form-control form-control-sm" data-trigger="submit">
+        <option value=""{% if status > 1 %} disabled{% endif %}>{{ 'status.pending'|trans }}</option>
+        <option value="2"{% if status == 2 %} selected{% endif %}>{{ 'status.accepted'|trans }}</option>
+        <option value="3"{% if status == 3 %} selected{% endif %}>{{ 'status.declined'|trans }}</option>
+        <option value="4"{% if status == 4 %} selected{% endif %}>{{ 'status.maybe'|trans }}</option>
+    </select>
+</form>
+{% else %}
+    {{ status|status }}
+{% endif %}

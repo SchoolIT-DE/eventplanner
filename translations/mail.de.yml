@@ -1,0 +1,26 @@
+greeting: Hallo, %firstname% %lastname%!
+farewell: "Mit freundlichen Grüßen,\nDas Team vom Veranstaltungsplaner"
+
+comment:
+  subject: Neuer Kommentar zu %event%
+  info: '%firstname% %lastname% hat folgenden Kommentar zum Termin "%event%" hinzugefügt:'
+
+message:
+  global:
+    subject: Neue globale Nachricht
+    info: '%firstname% %lastname% hat eine globale Nachricht geschrieben:'
+
+  group:
+    subject: Neue Nachricht in der Gruppe %group%
+    info: '%firstname% %lastname% hat in der Gruppe "%group%" eine neue Nachricht geschrieben:'
+
+event:
+  subject: Einladung zu %event%
+  info: 'Sie wurden von %firstname% %lastname% zu dem Termin "%event%" eingeladen.'
+  actions:
+    label: Aktionen
+    accept: zusagen
+    decline: absagen
+    maybe: vielleicht
+  attachments: Anlagen
+  attachment: Anlage

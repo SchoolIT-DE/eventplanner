@@ -1,0 +1,15 @@
+stof_doctrine_extensions:
+    default_locale: de_DE
+    uploadable:
+        default_file_path: "%kernel.project_dir%/uploads"
+        mime_type_guesser_class: Stof\DoctrineExtensionsBundle\Uploadable\MimeTypeGuesserAdapter
+        default_file_info_class: Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo
+    orm:
+        default:
+            tree: false
+            translatable: false
+            loggable: false
+            softdeleteable: false
+            uploadable: true
+            blameable: true
+            timestampable: true

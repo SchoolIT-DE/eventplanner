@@ -1,0 +1,139 @@
+dateformat: d.m.Y H:i:s
+
+label:
+  name: Name
+  general: Allgemeine Informationen
+  group: Gruppe
+  content: Inhalt
+  description: Beschreibung
+  location: Ort
+  groups: Gruppen
+  date_time: Datum & Zeit
+  start: Start
+  end: Ende
+  files: Dateien
+  status: Status
+  changed_at: Letzte Änderung
+  never: nie
+  email: E-Mail Adresse
+  admins: Administratoren
+  confirm: Bestätigen
+  language: Sprache
+
+actions:
+  label: Aktionen
+  add: hinzufügen
+  edit: bearbeiten
+  save: speichern
+  cancel: abbrechen
+  remove: löschen
+  back: zurück
+  confirm_remove: Löschen bestätigen
+
+events:
+  label: Termine
+  none: Aktuell sind keine Termine vorhanden!
+  all:
+    label: Alle Termine
+    button: Alle Termine anzeigen
+
+event:
+  created_at: Erstellungsdatum
+  person: Veranstalter
+  participants: Teilnehmer (%accepted% / %count%)
+  status:
+    success: Status erfolgreich geändert
+    error_invalid: Ungültige Status-Angabe
+  comments:
+    label: Kommentare
+    empty: Bisher wurden keine Kommentare geschrieben.
+    success: Kommentar erfolgreich erstellt
+    new: Neuer Kommentar
+
+    remove:
+      label: Kommentar löschen
+      success: Kommentar erfolgreich gelöscht
+      confirm: Soll der Kommentar wirklich gelöscht werden?
+
+groups:
+  label: Gruppen
+  mail: Rundmail versenden
+
+manage_events:
+  label: Termine verwalten
+  add:
+    label: Termin erstellen
+    success: Termin erfolgreich erstellt
+  edit:
+    label: Termin bearbeiten
+    success: Termin erfolgreich aktualisiert
+  remove:
+    label: Termin löschen
+    confirm: Soll der Termin "%name%" wirklich gelöscht werden?
+    success: Termin erfolgreich gelöscht
+
+manage_groups:
+  label: Gruppen verwalten
+  add:
+    label: Gruppe erstellen
+    success: Gruppe erfolgreich erstellt
+  edit:
+    label: Gruppe bearbeiten
+    success: Gruppe erfolgreich aktualisiert
+  remove:
+    label: Gruppe löschen
+    confirm: Soll die Gruppe "%name%" wirklich gelöscht werden?
+    success: Gruppe erfolgreich gelöscht
+  memberships:
+    label: Mitglieder verwalten
+    success: Mitglieder erfolgreich aktualisiert
+  admins:
+    label: Gruppen-Administratoren
+    success: Administratoren erfolgreich aktualisiert
+
+messages:
+  label: Mitteilungen
+  new: Mitteilung verfassen
+  empty: Keine Mitteilungen vorhanden
+  remove:
+    label: Mitteilung löschen
+    confirm: Soll die Mitteilung vom %date% wirklich gelöscht werden?
+    success: Mitteilung erfolgreich gelöscht
+
+status:
+  pending: eingeladen
+  accepted: zugesagt
+  declined: abgesagt
+  maybe: vielleicht
+
+form:
+  multiple_help: In diesem Feld ist Mehrfachauswahl mit den Tasten Strg und/oder Shift möglich.
+  select_all: alle auswählen
+  unselect_all: alle abwählen
+
+ics:
+  label: Kalender-Synchronisation
+  info: "Wenn du den Kalender in deinem Kalenderprogramm abonnieren möchtest, benutze folgenden Link:"
+
+translations:
+  de: Deutsch
+  en: Englisch
+
+preferences:
+  language:
+    label: E-Mail Sprache festlegen
+    success: Sprache erfolgreich gespeichert
+    message: Die E-Mail Sprache muss festgelegt werden
+
+administration:
+  label: Verwaltung
+
+user:
+  info:
+    roles: Benutzerrollen
+  contact:
+    label: Kontaktinformationen
+    phone: Telefonnummer
+    mobile: Handynummer
+    address: Adresse
+    none: Nicht angegeben

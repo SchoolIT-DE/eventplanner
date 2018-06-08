@@ -1,0 +1,15 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'groups.label'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h4>{{ 'groups.label'|trans }}</h4>
+
+        <ul>
+            {% for group in groups %}
+                <li><a href="{{ path('show_group', { id: group.id }) }}">{{ group.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

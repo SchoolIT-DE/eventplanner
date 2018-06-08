@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <body style="font: normal 90% 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, 'Lucida Grande', sans-serif; color: #333;">
+        <article>
+            {{ 'greeting'|trans({'%firstname%': user.firstname, '%lastname%': user.lastname}, 'mail') }}
+        </article>
+        <article style="margin: 15px 0px;">
+            {{ 'event.info'|trans({'%firstname%': event.createdBy.firstname, '%lastname%': event.createdBy.lastname, '%event%': event.name }, 'mail') }}
+
+            <div style="padding: 10px; margin-right: 10px;">
+                <h4 style="font-size: 18px; margin-top: 10px; margin-bottom: 10px; font-weight: 500; line-height: 1.1;">{{ 'label.general'|trans() }}</h4>
+                <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ 'label.start'|trans() }}
+                        </td>
+                        <td style="padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ event.start|shortdate }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ 'label.end'|trans() }}
+                        </td>
+                        <td style="padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ event.end|shortdate }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px; vertical-align: top; border-top: 1px solid #ddd;">
+                            {{ 'label.location'|trans }}
+                        </td>
+                        <td style="padding: 8px; vertical-align: top; border-top: 1px solid #ddd;">
+                            {{ event.location }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ 'label.description'|trans }}
+                        </td>
+                        <td style="padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ event.description }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px; vertical-align: top; border-top: 1px solid #ddd;">
+                            {{ 'label.groups'|trans }}
+                        </td>
+                        <td style="padding: 8px; vertical-align: top; border-top: 1px solid #ddd;">
+                            {% for group in event.groups %}{{ group.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+                        </td>
+                    </tr>
+                    {% if event.files.count > 0 %}
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            {{ 'label.files'|trans }}
+                        </td>
+                        <td style="padding: 8px; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;">
+                            <ul>
+                            {% for file in event.files %}
+                                <li>{{ file.originalFilename }}</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+            <div style="padding: 10px; margin-bottom: 10px; margin-right: 10px;">
+                <h4 style="font-size: 18px; margin-top: 0px; margin-bottom: 10px; font-weight: 500; line-height: 1.1;">{{ 'event.actions.label'|trans({}, 'mail') }}</h4>
+
+                <ul>
+                    <li>
+                        <a href="{{ url('change_status_mail', { id: event.id, token: status.linkToken, status: 2 }) }}">
+                            {{ 'event.actions.accept'|trans({}, 'mail') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('change_status_mail', { id: event.id, token: status.linkToken, status: 3 }) }}">
+                            {{ 'event.actions.decline'|trans({}, 'mail') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('change_status_mail', { id: event.id, token: status.linkToken, status: 4} ) }}">
+                            {{ 'event.actions.maybe'|trans({}, 'mail') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+        <article style="margin: 15px 0px;">
+            {{ 'farewell'|trans({}, 'mail') }}
+
+            <br />
+            <br />
+
+            {% if event.files.count != 0 %}
+                {{ 'event.attachments'|trans({}, 'mail') }}
+            {% else %}
+                {{ 'event.attachment'|trans({}, 'mail') }}
+            {% endif %}
+
+            <ul>
+                <li>{{ event.name }}.ics</li>
+                {% for file in event.files %}
+                <li>{{ file.originalFilename }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </body>
+</html>

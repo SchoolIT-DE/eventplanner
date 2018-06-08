@@ -1,0 +1,19 @@
+$enable-shadows: true;
+$enable-gradients: true;
+
+// Import Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+// Import FontAwesome
+@import '../../node_modules/font-awesome/scss/font-awesome';
+
+// Import SchoolIT design
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/layout.scss';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/additions.scss';
+
+.comment > span.details {
+  font-size: 100%;
+  color: $gray-600;
+  margin-bottom: 5px;
+  display: block;
+}

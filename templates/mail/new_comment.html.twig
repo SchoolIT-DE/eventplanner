@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <body style="font: normal 90% 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, 'Lucida Grande', sans-serif; color: #333;">
+        <article>
+            {{ 'greeting'|trans({'%firstname%': user.firstname, '%lastname%': user.lastname}, 'mail') }}
+        </article>
+        <article style="margin: 15px 0px;">
+            {{ 'comment.info'|trans({'%firstname%': comment.createdBy.firstname, '%lastname%': comment.createdBy.lastname, '%event%': comment.event.name }, 'mail') }}
+
+            <blockquote style="padding: 10px 20px; margin: 0 0 20px; font-size: 17.5px; border-left: 5px solid #eee;">
+                {{ comment.content }}
+            </blockquote>
+        </article>
+        <article style="margin: 15px 0px;">
+            {{ 'farewell'|trans({}, 'mail') }}
+        </article>
+    </body>
+</html>

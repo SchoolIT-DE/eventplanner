@@ -1,0 +1,126 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'events.label'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h4>{{ event.name }} ({{ event.start|shortdate }} - {{ event.end|shortdate }})</h4>
+        <p><i class="fa fa-map-marker" title="{{ 'label.location'|trans }}"></i> {{ event.location }}</p>
+
+        <p>{{ event.description }}</p>
+
+        {% if event.files.count > 0 %}
+            <ul class="list-unstyled">
+                {% for file in event.files %}
+                    <li><i class="fa fa-file"></i> <a href="{{ path('download_file', { eventId: event.id, id: file.id, filename: file.originalFilename }) }}">{{ file.originalFilename }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <div class="contentbox">
+        <h4>{{ 'label.general'|trans }}</h4>
+
+        <div class="row no-padding">
+            <div class="col-md-6">
+                <p><i class="fa fa-user" title="{{ 'event.person'|trans }}"></i> <a href="{{ path('show_user', { id: event.createdBy.id }) }}">{{ event.createdBy|user }}</a></p>
+                <p><i class="fa fa-users" title="{{ 'label.groups'|trans }}"></i> {% for group in event.groups %}<a href="{{ path('show_group', { id: group.id }) }}">{{ group.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+                <p><i class="fa fa-clock-o" title="{{ 'event.created_at'|trans }}"></i> {{ event.createdAt|shortdate }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contentbox">
+        <h4>{{ 'event.participants'|trans({ '%accepted%': accepted, '%count%': participants|length}) }}</h4>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <colgroup>
+                    <col />
+                    <col class="column-lg" />
+                    <col class="column-lg" />
+                </colgroup>
+
+                <thead>
+                <tr>
+                    <th>{{ 'label.name'|trans }}</th>
+                    <th>{{ 'label.status'|trans }}</th>
+                    <th>{{ 'label.changed_at'|trans }}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for participant in participants %}
+                    <tr>
+                        <td><a href="{{ path('show_user', { id: participant.user.id }) }}">{{ participant.user|user }}</a></td>
+                        <td>
+                            {% if participant.user.id == app.user.id %}
+                                {% include 'includes/change_status.html.twig' with { event: event, csrfToken: csrfToken, status: participant.status } only %}
+                            {% else %}
+                                {{ participant.status|status }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if participant.lastChange != null %}
+                                {{ participant.lastChange|shortdate }}
+                            {% else %}
+                                {{ 'label.never'|trans }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="contentbox">
+        <h4>{{ 'event.comments.label'|trans }}</h4>
+
+        {% if event.comments|length == 0 %}
+            {{ 'event.comments.empty'|trans }}
+        {% else %}
+            {% for comment in event.comments %}
+                <div class="bs-callout comment">
+                    <p>{{ comment.content }}</p>
+                    <span class="details">
+                        <i class="fa fa-user"></i> <a href="{{ path('show_user', { id: comment.createdBy.id }) }}">{{ comment.createdBy|user }}</a>
+                        <i class="fa fa-clock-o"></i> {{ comment.createdAt|shortdate }}
+                    </span>
+                    {% if is_granted('remove', comment) %}
+                    <div>
+                        <a href="{{ path('remove_comment', { eventId: event.id, id: comment.id }) }}" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="contentbox">
+        <h4>{{ 'event.comments.new'|trans }}</h4>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="fa fa-send"></i> {{ 'actions.add'|trans }}
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+    {% if is_granted('edit', event) %}
+        <a href="{{ path('edit_event', { id: event.id }) }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-edit"></i> {{ 'actions.edit'|trans }}
+        </a>
+    {% endif %}
+    {% if is_granted('remove', event) %}
+        <a href="{{ path('remove_event', { id: event.id }) }}" class="btn btn-danger btn-sm">
+            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+        </a>
+    {% endif %}
+{% endblock %}
