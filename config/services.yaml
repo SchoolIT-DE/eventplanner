@@ -25,28 +25,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    # SAML stuff
-    saml.user_updater:
-      class: App\Security\User\UserUpdater
-      arguments:
-        - "@doctrine.orm.entity_manager"
-        - "@saml.user_mapper"
-        - "@logger"
 
-    saml.user_mapper:
-      class: App\Security\User\UserMapper
-
-    saml.user_creator:
-      class: App\Security\User\UserCreator
+    App\Security\User\UserCreator:
       arguments:
         $usernameMapper: "@lightsaml_sp.username_mapper.simple"
 
-    saml.attribute_mapper:
-      class: App\Security\User\AttributeMapper
-
     # Menu
-    app.menu:
-      class: App\Menu\Builder
+    App\Menu\Builder:
       tags:
         - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
 
@@ -55,7 +40,6 @@ services:
         - { name: knp_menu.voter }
 
     App\Helper\Ics\IcsHelper:
-      class: App\Helper\Ics\IcsHelper
       arguments:
         $timezone: '%env(TIMEZONE)%'
 
@@ -70,6 +54,5 @@ services:
 
     # Session storage
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
-      autowire: false
       arguments:
           - '%env(DATABASE_URL)%'
