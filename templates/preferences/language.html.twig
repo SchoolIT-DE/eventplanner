@@ -6,10 +6,12 @@
 
     {{ form_start(form) }}
 
-    <div class="contentbox">
-        <h4>{{ 'preferences.language.label'|trans }}</h4>
+    <div class="card">
+        <div class="card-header">{{ 'preferences.language.label'|trans }}</div>
 
-        {{ form_widget(form) }}
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
     </div>
 
     <div class="buttons">
