@@ -1,23 +1,12 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="{{ app.request.locale }}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {% block meta %}{% endblock %}
     <title>{{ config.name }}</title>
 
-    {% stylesheets
-    '%kernel.project_dir%/vendor/components/font-awesome/css/font-awesome.css'
-    '%kernel.project_dir%/vendor/twbs/bootstrap/dist/css/bootstrap.css'
-    '%kernel.project_dir%/vendor/twbs/bootstrap/dist/css/bootstrap-theme.css'
-    '@CommonBundle/Resources/assets/css/*.css'
-    '%kernel.root_dir%/Resources/assets/css/*.css'
-    output='css/app.css'
-    filter='?minifycss'
-    %}
-    <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
-    {% endstylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ preload(asset('build/app.css')) }}" />
 
     {% block head %}{% endblock %}
 </head>
@@ -25,46 +14,35 @@
 <body>
 
 <header class="clearfix" id="page-header">
-    <div class="visible-print">
-        <h3>{{ config.name }}</h3>
-    </div>
-
-    <div class="pull-left hidden-print" id="logo">
-        <h1>{{ config.name }}</h1>
+    <div id="logo">
+        <h1>{% block title %}{{ 'auth.login'|trans }}{% endblock %}</h1>
     </div>
 </header>
 
 <div class="container-fluid main">
-
-    <div class="row">
-        <div class="col-md-12">
-            {% for msg in app.session.flashbag.get('error') %}
-                <div class="bs-callout bs-callout-danger">
-                    <h4>{{ 'error.label'|trans }}</h4>
-                    <p>{{ msg|trans }}</p>
-                </div>
-            {% endfor %}
-
-            {% for msg in app.session.flashbag.get('info') %}
-                <div class="bs-callout bs-callout-info">
-                    <h4>{{ 'info.label'|trans }}</h4>
-                    <p>{{ msg|trans }}</p>
-                </div>
-            {% endfor %}
-
-            {% for msg in app.session.flashbag.get('success') %}
-                <div class="bs-callout bs-callout-success">
-                    <h4>{{ 'success.label'|trans }}</h4>
-                    <p>{{ msg|trans }}</p>
-                </div>
-            {% endfor %}
+    {% for msg in app.session.flashbag.get('error') %}
+        <div class="bs-callout bs-callout-danger">
+            <h4>{{ 'error.label'|trans }}</h4>
+            <p>{{ msg|trans }}</p>
         </div>
+    {% endfor %}
 
-    </div>
+    {% for msg in app.session.flashbag.get('info') %}
+        <div class="bs-callout bs-callout-info">
+            <h4>{{ 'info.label'|trans }}</h4>
+            <p>{{ msg|trans }}</p>
+        </div>
+    {% endfor %}
 
+    {% for msg in app.session.flashbag.get('success') %}
+        <div class="bs-callout bs-callout-success">
+            <h4>{{ 'success.label'|trans }}</h4>
+            <p>{{ msg|trans }}</p>
+        </div>
+    {% endfor %}
 </div>
 
-<footer class="hidden-print">
+<footer>
     <div class="row">
         <div class="col-md-6 col-xs-12">
             <h3>{{ config.name }}</h3>
@@ -77,11 +55,13 @@
 
         <div class="col-md-6 col-xs-12">
             <p>
-                © {{ "now"|date("Y") }} School IT
+                © {{ "now"|date("Y")  }} SchulIT
             </p>
         </div>
     </div>
 </footer>
+
+{% block javascript %}{% endblock %}
 
 </body>
 </html>
