@@ -1,6 +1,13 @@
 {% extends "main.html.twig" %}
 
-{% block title %}{{ 'manage_groups.label'|trans }}{% endblock %}
+{% block title %}{{ 'manage_events.add.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('manage_events') }}">{{ 'manage_events.label'|trans }}</a> </li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
 
 {% block content %}
 
@@ -9,7 +16,7 @@
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fa fa-plus"></i> {{ 'actions.add'|trans }}
+            <i class="fas fa-plus"></i> {{ 'actions.add'|trans }}
         </button>
 
         <a href="{{ path('manage_groups') }}" class="btn btn-sm btn-secondary">

@@ -2,19 +2,22 @@
 
 {% block title %}{{ 'manage_groups.remove.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('manage_groups') }}">{{ 'manage_groups.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ group.name }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
 
     {{ form_start(form) }}
-
-    <div class="contentbox">
-        <h4>{{ 'label.confirm'|trans }}</h4>
-
-        {{ form_widget(form) }}
-    </div>
+    {{ form_widget(form) }}
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+            <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
         </button>
 
         <a href="{{ path('manage_groups') }}" class="btn btn-sm btn-secondary">

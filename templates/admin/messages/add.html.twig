@@ -6,15 +6,17 @@
 
     {{ form_start(form) }}
 
-    <div class="contentbox">
-        <h4>{{ 'label.general'|trans }}</h4>
+    <div class="card">
+        <div class="card-header">{{ 'label.general'|trans }}</div>
 
-        {{ form_widget(form) }}
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
     </div>
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fa fa-plus"></i> {{ 'actions.add'|trans }}
+            <i class="fas fa-plus"></i> {{ 'actions.add'|trans }}
         </button>
 
         <a href="{{ path('manage_groups') }}" class="btn btn-sm btn-secondary">

@@ -79,7 +79,8 @@ class ManageGroupsController extends Controller {
         }
 
         return $this->render('admin/groups/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'group' => $group
         ]);
     }
 
@@ -104,7 +105,8 @@ class ManageGroupsController extends Controller {
         }
 
         return $this->render('admin/groups/admins.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'group' => $group
         ]);
     }
 
@@ -129,7 +131,8 @@ class ManageGroupsController extends Controller {
         }
 
         return $this->render('admin/groups/memberships.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'group' => $group
         ]);
     }
 
@@ -156,7 +159,8 @@ class ManageGroupsController extends Controller {
         }
 
         return $this->render('admin/groups/remove.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'group' => $group
         ]);
     }
 

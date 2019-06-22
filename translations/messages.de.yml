@@ -45,8 +45,7 @@ event:
     success: Status erfolgreich geändert
     error_invalid: Ungültige Status-Angabe
   comments:
-    label: Kommentare
-    empty: Bisher wurden keine Kommentare geschrieben.
+    head: "%user% verfasste einen Kommentar"
     success: Kommentar erfolgreich erstellt
     new: Neuer Kommentar
 
@@ -137,3 +136,5 @@ user:
     mobile: Handynummer
     address: Adresse
     none: Nicht angegeben
+
+now: jetzt

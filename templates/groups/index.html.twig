@@ -2,14 +2,19 @@
 
 {% block title %}{{ 'groups.label'|trans }}{% endblock %}
 
-{% block content %}
-    <div class="contentbox">
-        <h4>{{ 'groups.label'|trans }}</h4>
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
 
-        <ul>
+{% block content %}
+    <div class="card">
+        <div class="card-header">{{ 'groups.label'|trans }}</div>
+        <div class="list-group list-group-flush">
             {% for group in groups %}
-                <li><a href="{{ path('show_group', { id: group.id }) }}">{{ group.name }}</a></li>
+                <a href="{{ path('show_group', { id: group.id }) }}" class="list-group-item">{{ group.name }}</a></li>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 {% endblock %}

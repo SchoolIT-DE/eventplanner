@@ -2,6 +2,14 @@
 
 {% block title %}{{ 'manage_events.edit.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('manage_events') }}">{{ 'manage_events.label'|trans }}</a> </li>
+        <li class="breadcrumb-item">{{ event.name }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
 
     {{ form_start(form) }}
@@ -9,7 +17,7 @@
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+            <i class="fas fa-save"></i> {{ 'actions.save'|trans }}
         </button>
 
         <a href="{{ path('show_event', { id: event.id }) }}" class="btn btn-sm btn-secondary">

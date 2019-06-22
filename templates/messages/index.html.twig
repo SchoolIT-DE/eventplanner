@@ -12,13 +12,13 @@
                     <div class="bs-callout comment">
                         <p>{{ message.content }}</p>
                         <span class="details">
-                            <i class="fa fa-user"></i> <a href="{{ path('show_user', { id: message.createdBy.id }) }}">{{ message.createdBy|user }}</a>
-                            <i class="fa fa-clock-o"></i> {{ message.createdAt|shortdate }}
+                            <i class="fas fa-user"></i> <a href="{{ path('show_user', { id: message.createdBy.id }) }}">{{ message.createdBy|user }}</a>
+                            <i class="fas fa-clock-o"></i> {{ message.createdAt|shortdate }}
                         </span>
                         {% if is_granted('remove', message) %}
                             <div>
                                 <a href="{{ path('remove_message', { id: message.id }) }}" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+                                    <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
                                 </a>
                             </div>
                         {% endif %}

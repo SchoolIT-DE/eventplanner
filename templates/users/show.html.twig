@@ -6,12 +6,12 @@
     <div class="contentbox">
         <h4>{{ actualUser|user }}</h4>
 
-        <p><i class="fa fa-group" title="{{ 'label.groups'|trans }}"></i>
+        <p><i class="fas fa-group" title="{{ 'label.groups'|trans }}"></i>
             {% for group in actualUser.groups %}
                 <a href="{{ path('show_group', { id: group.id }) }}">{{ group.name }}</a>{% if not loop.last  %}, {% endif %}
             {% endfor %}
         </p>
-        <p><i class="fa fa-shield" title="{{ 'user.info.roles'|trans }}"></i>
+        <p><i class="fas fa-shield" title="{{ 'user.info.roles'|trans }}"></i>
             {% for role in actualUser.roles %}
                 {{ role }}{% if not loop.last %}, {% endif %}
             {% endfor %}
@@ -21,9 +21,9 @@
     <div class="contentbox">
         <h4>{{ 'user.contact.label'|trans }}</h4>
 
-        <p><i class="fa fa-envelope" title="{{ 'label.email'|trans }}"></i> <a href="mailto:{{ actualUser.lastname}}, {{ actualUser.firstname }} <{{ actualUser.email }}>">{{ actualUser.email }}</a></p>
-        <p><i class="fa fa-map-marker" title="{{ 'user.contact.address'|trans }}"></i> {{ actualUser.address|default('user.contact.none'|trans) }}</p>
-        <p><i class="fa fa-phone" title="{{ 'user.contact.phone'|trans }}"></i> {{ actualUser.phone|default('user.contact.none'|trans) }}</p>
-        <p><i class="fa fa-mobile-phone" title="{{ 'user.contact.mobile'|trans }}"></i> {{ actualUser.mobile|default('user.contact.none'|trans) }}</p>
+        <p><i class="fas fa-envelope" title="{{ 'label.email'|trans }}"></i> <a href="mailto:{{ actualUser.lastname}}, {{ actualUser.firstname }} <{{ actualUser.email }}>">{{ actualUser.email }}</a></p>
+        <p><i class="fas fa-map-marker" title="{{ 'user.contact.address'|trans }}"></i> {{ actualUser.address|default('user.contact.none'|trans) }}</p>
+        <p><i class="fas fa-phone" title="{{ 'user.contact.phone'|trans }}"></i> {{ actualUser.phone|default('user.contact.none'|trans) }}</p>
+        <p><i class="fas fa-mobile-phone" title="{{ 'user.contact.mobile'|trans }}"></i> {{ actualUser.mobile|default('user.contact.none'|trans) }}</p>
     </div>
 {% endblock %}

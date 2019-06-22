@@ -2,55 +2,59 @@
 
 {% block title %}{{ 'manage_groups.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
 
-    <div class="contentbox">
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <colgroup>
-                    <col />
-                    <col class="column-lg" />
-                </colgroup>
+    <div class="card">
+        <table class="table table-striped table-hover">
+            <colgroup>
+                <col />
+                <col class="column-lg" />
+            </colgroup>
 
-                <thead>
+            <thead>
+            <tr>
+                <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'actions.label'|trans }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for group in groups %}
                 <tr>
-                    <th>{{ 'label.name'|trans }}</th>
-                    <th>{{ 'actions.label'|trans }}</th>
+                    <td>{{ group.name }}</td>
+                    <td>
+                        <a href="{{ path('edit_group', { id: group.id }) }}" class="btn btn-sm btn-primary">
+                            {{ 'actions.edit'|trans }}
+                        </a>
+
+                        <a href="{{ path('edit_group_memberships', { id: group.id }) }}" class="btn btn-sm btn-primary">
+                            {{ 'manage_groups.memberships.label'|trans }}
+                        </a>
+
+                        <a href="{{ path('edit_group_admins', { id: group.id }) }}" class="btn btn-sm btn-primary">
+                            {{ 'manage_groups.admins.label'|trans }}
+                        </a>
+
+                        <a href="{{ path('remove_group', {id: group.id }) }}" class="btn btn-sm btn-danger">
+                            {{ 'actions.remove'|trans }}
+                        </a>
+                    </td>
                 </tr>
-                </thead>
-
-                <tbody>
-                {% for group in groups %}
-                    <tr>
-                        <td>{{ group.name }}</td>
-                        <td>
-                            <a href="{{ path('edit_group', { id: group.id }) }}" class="btn btn-sm btn-primary">
-                                {{ 'actions.edit'|trans }}
-                            </a>
-
-                            <a href="{{ path('edit_group_memberships', { id: group.id }) }}" class="btn btn-sm btn-primary">
-                                {{ 'manage_groups.memberships.label'|trans }}
-                            </a>
-
-                            <a href="{{ path('edit_group_admins', { id: group.id }) }}" class="btn btn-sm btn-primary">
-                                {{ 'manage_groups.admins.label'|trans }}
-                            </a>
-
-                            <a href="{{ path('remove_group', {id: group.id }) }}" class="btn btn-sm btn-danger">
-                                {{ 'actions.remove'|trans }}
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     {% if is_granted('add_group') %}
     <div class="buttons">
         <a href="{{ path('add_group') }}" class="btn btn-sm btn-primary">
-            <i class="fa fa-plus"></i> {{ 'manage_groups.add.label'|trans }}
+            <i class="fas fa-plus"></i> {{ 'manage_groups.add.label'|trans }}
         </a>
     </div>
     {% endif %}

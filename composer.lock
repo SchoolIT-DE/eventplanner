@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c9db0616efdb0e8e37312f5eb1d3dc0",
+    "content-hash": "f3fb3aa17d4d2db9871f3965e0b160d0",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2517,16 +2517,16 @@
         },
         {
             "name": "schoolit/common-bundle",
-            "version": "1.2.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/common-bundle.git",
-                "reference": "6eea3f563fcc4e1cbed9d81de207e7397522eb4e"
+                "reference": "21be9fe61c9628f8bbe1470aa8b26e40a333ce14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/6eea3f563fcc4e1cbed9d81de207e7397522eb4e",
-                "reference": "6eea3f563fcc4e1cbed9d81de207e7397522eb4e",
+                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/21be9fe61c9628f8bbe1470aa8b26e40a333ce14",
+                "reference": "21be9fe61c9628f8bbe1470aa8b26e40a333ce14",
                 "shasum": ""
             },
             "require": {
@@ -2561,7 +2561,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2019-02-11T19:41:53+00:00"
+            "time": "2019-06-22T12:18:55+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -5631,6 +5631,7 @@
                 "MIT"
             ],
             "description": "A pack for Symfony Encore",
+            "abandoned": "symfony/webpack-encore-bundle",
             "time": "2018-07-16T10:15:28+00:00"
         },
         {

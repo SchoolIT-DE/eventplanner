@@ -32,11 +32,11 @@
         <span class="help-block">{{ 'form.multiple_help'|trans }}</span>
 
         <button type="button" class="btn btn-secondary btn-sm" onclick="$('#{{ id }} option').prop('selected', true);">
-            <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ 'form.select_all'|trans }}
+            <i class="fas fa-check-square-o" aria-hidden="true"></i> {{ 'form.select_all'|trans }}
         </button>
 
         <button type="button" class="btn btn-secondary btn-sm" onclick="$('#{{ id }} option').prop('selected', false);">
-            <i class="fa fa-square-o" aria-hidden="true"></i> {{ 'form.unselect_all'|trans }}
+            <i class="fas fa-square-o" aria-hidden="true"></i> {{ 'form.unselect_all'|trans }}
         </button>
     {% endif %}
 {%- endblock choice_widget_collapsed %}
@@ -56,6 +56,6 @@
         {{ form_widget(form.key, { attr: { placeholder: form.key.vars.label }}) }}
         {{ form_widget(form.value, { attr: { placeholder: form.key.vars.label }}) }}
 
-        <button class="btn btn-danger btn-delete" type="button"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-danger btn-delete" type="button"><i class="fas fa-trash"></i></button>
     </div>
 {% endblock %}

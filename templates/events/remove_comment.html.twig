@@ -2,6 +2,14 @@
 
 {% block title %}{{ 'event.comments.remove.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('events') }}">{{ 'events.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('show_event', { id: event.id }) }}">{{ event.name }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
 
     {{ form_start(form) }}
@@ -14,7 +22,7 @@
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+            <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
         </button>
 
         <a href="{{ path('show_event', { id: event.id }) }}" class="btn btn-sm btn-secondary">

@@ -142,7 +142,8 @@ class ManageEventsController extends Controller {
         }
 
         return $this->render('admin/events/remove.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'event' => $event
         ]);
     }
 }
