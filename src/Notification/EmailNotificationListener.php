@@ -7,7 +7,6 @@ use App\Entity\ParticipationStatus;
 use App\Entity\User;
 use App\Event\CommentEvent;
 use App\Event\EventEvent;
-use App\Event\MessageEvent;
 use App\Helper\Ics\IcsHelper;
 use App\Helper\SecurityTools;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -142,62 +141,6 @@ class EmailNotificationListener implements EventSubscriberInterface {
         $this->logger->debug('onCommentCreated() ended');
     }
 
-    public function onMessageCreated(MessageEvent $messageEvent) {
-        $this->logger->debug('onMessageCreated() started');
-
-        $message = $messageEvent->getMessage();
-        $group = $message->getGroup();
-
-        $isGlobalMessage = $group === null;
-
-        if($isGlobalMessage) {
-            /** @var User[] $users */
-            $users = $group->getMembers();
-        } else {
-            /** @var User[] $users */
-            $users = $this->om
-                ->getRepository(User::class)
-                ->findAll();
-        }
-
-        $currentLocale = $this->translator->getLocale();
-
-        $this->logger->debug(sprintf('onMessageCreated() sending mails to %d users', count($users)));
-
-        foreach($users as $user) {
-            if($user->getLanguage() === null) {
-                continue;
-            }
-
-            $this->translator->setLocale($user->getLanguage());
-
-            if($isGlobalMessage) {
-                $subject = $this->translator->trans('message.global.subject', [ ], 'mail');
-            } else {
-                $subject = $this->translator->trans('message.group.subject', [ '%group%' => $group->getName() ], 'mail');
-            }
-
-            $content = $this->twig->render('mail/new_message.html.twig', [
-                'users' => $user,
-                'group' => $group,
-                'message' => $message,
-                'isGlobalMessage' => $isGlobalMessage
-            ]);
-
-            $message = (new \Swift_Message())
-                ->setSubject($subject)
-                ->setContentType('text/html')
-                ->setBody($content)
-                ->setTo($user->getEmail())
-                ->setFrom($this->email_from);
-
-            $this->mailer->send($message);
-        }
-
-        $this->translator->setLocale($currentLocale);
-        $this->logger->debug('onMessageCreated() ended');
-    }
-
     /**
      * @param Group[] $groups
      * @return User[]
@@ -220,8 +163,7 @@ class EmailNotificationListener implements EventSubscriberInterface {
     public static function getSubscribedEvents() {
         return [
             EventEvent::CREATED => 'onEventCreated',
-            CommentEvent::CREATED => 'onCommentCreated',
-            MessageEvent::CREATED => 'onMessageCreated'
+            CommentEvent::CREATED => 'onCommentCreated'
         ];
     }
 }

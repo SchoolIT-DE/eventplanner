@@ -56,11 +56,6 @@ class Builder {
         ])
             ->setAttribute('count', $this->em->getRepository(Event::class)->countForGroups($user->getGroups()->toArray(), $this->dateHelper->getToday()));
 
-        $menu->addChild('messages.label', [
-            'route' => 'messages'
-        ])
-            ->setAttribute('count', $this->em->getRepository(Message::class)->countMessagesForUser($user));
-
         $menu->addChild('groups.label', [
             'route' => 'groups'
         ]);
@@ -76,10 +71,6 @@ class Builder {
 
             $menu->addChild('manage_groups.label', [
                 'route' => 'manage_groups'
-            ]);
-
-            $menu->addChild('messages.new', [
-                'route' => 'admin_messages'
             ]);
 
             $menu->addChild('manage_events.label', [
