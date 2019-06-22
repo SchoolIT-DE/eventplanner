@@ -1,5 +1,9 @@
 {% extends '@Common/main.html.twig' %}
 
+{% block usermenu %}
+    <li><a href="{{ path('language') }}" class="dropdown-item"><i class="fas fa-language"></i> {{ 'label.language'|trans }}</a></li>
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css" />
 {% endblock %}
