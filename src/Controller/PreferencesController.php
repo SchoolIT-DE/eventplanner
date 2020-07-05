@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
-class PreferencesController extends Controller {
+class PreferencesController extends AbstractController {
     /**
      * @Route("/preferences/language", name="language")
      */
@@ -39,7 +39,7 @@ class PreferencesController extends Controller {
 
             $this->addFlash('success', 'preferences.language.success');
 
-            return $this->redirectToRoute('language');
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('preferences/language.html.twig', [

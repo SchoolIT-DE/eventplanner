@@ -9,58 +9,68 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-9">
+                {% for group in groups %}
+                    <div class="card">
+                        <div class="card-header">{{ group.key }} <span class="badge badge-secondary badge-pill">{{ group.items|length }}</span> </div>
 
-    {% for group in groups %}
-        <div class="card">
-            <div class="card-header">{{ group.key }} <span class="badge badge-secondary badge-pill">{{ group.items|length }}</span> </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered card-table">
+                                <colgroup>
+                                    <col />
+                                    <col class="column-lg" />
+                                    <col class="column-md" />
+                                    <col class="column-lg" />
+                                    <col class="column-md" />
+                                </colgroup>
 
-            <table class="table table-striped table-hover">
-                <colgroup>
-                    <col />
-                    <col class="column-lg" />
-                    <col class="column-md" />
-                    <col class="column-lg" />
-                    <col class="column-lg" />
-                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>{{ 'label.name'|trans }}</th>
+                                    <th>{{ 'label.groups'|trans }}</th>
+                                    <th>{{ 'label.date_time'|trans }}</th>
+                                    <th>{{ 'event.person'|trans }}</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
 
-                <thead>
-                <tr>
-                    <th>{{ 'label.name'|trans }}</th>
-                    <th>{{ 'label.groups'|trans }}</th>
-                    <th>{{ 'label.date_time'|trans }}</th>
-                    <th>{{ 'event.person'|trans }}</th>
-                    <th>{{ 'actions.label'|trans }}</th>
-                </tr>
-                </thead>
+                                <tbody>
+                                {% for event in group.items %}
+                                    <tr>
+                                        <td><a href="{{ path('show_event', { uuid: event.uuid }) }}">{{ event.name }}</a></td>
+                                        <td>
+                                            {% for group in event.groups %}<a href="{{ path('show_group', { uuid: group.uuid }) }}">{{ group.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                                        </td>
+                                        <td>{{ event.start|shortdate }}</td>
+                                        <td>{{ event.createdBy|user }}</td>
+                                        <td>
+                                            <a href="{{ path('edit_event', { uuid: event.uuid }) }}" class="btn btn-primary btn-sm" title="{{ 'manage_events.edit.label'|trans }}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
 
-                <tbody>
-                {% for event in group.items %}
-                    <tr>
-                        <td><a href="{{ path('show_event', { id: event.id }) }}">{{ event.name }}</a></td>
-                        <td>
-                            {% for group in event.groups %}<a href="{{ path('show_group', { id: group.id }) }}">{{ group.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
-                        </td>
-                        <td>{{ event.start|shortdate }}</td>
-                        <td>{{ event.createdBy|user }}</td>
-                        <td>
-                            <a href="{{ path('edit_event', { id: event.id }) }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-edit"></i> {{ 'actions.edit'|trans }}
-                            </a>
-
-                            <a href="{{ path('remove_event', { id: event.id }) }}" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
-                            </a>
-                        </td>
-                    </tr>
+                                            <a href="{{ path('remove_event', { uuid: event.uuid }) }}" class="btn btn-danger btn-sm" title="{{ 'manage_events.remove.label'|trans }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 {% endfor %}
-                </tbody>
-            </table>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <a href="{{ path('add_event') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus"></i> {{ 'manage_events.add.label'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endfor %}
-
-    <div class="buttons">
-        <a href="{{ path('add_event') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> {{ 'manage_events.add.label'|trans }}
-        </a>
     </div>
 {% endblock %}

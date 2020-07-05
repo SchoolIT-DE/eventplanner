@@ -5,20 +5,21 @@ namespace App\Notification;
 use App\Entity\Group;
 use App\Entity\ParticipationStatus;
 use App\Entity\User;
-use App\Event\CommentEvent;
-use App\Event\EventEvent;
+use App\Event\CommentCreatedEvent;
+use App\Event\EventCreatedEvent;
 use App\Helper\Ics\IcsHelper;
 use App\Helper\SecurityTools;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use Swift_Mailer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class EmailNotificationListener implements EventSubscriberInterface {
 
     private $email_from;
-    private $om;
+    private $em;
     private $translator;
     private $twig;
     private $mailer;
@@ -26,18 +27,19 @@ class EmailNotificationListener implements EventSubscriberInterface {
     private $securityTools;
     private $logger;
 
-    public function __construct(string $email_from, ObjectManager $objectManager, TranslatorInterface $translator, \Twig_Environment $twig, \Swift_Mailer $mailer, IcsHelper $icsHelper, SecurityTools $securityTools, LoggerInterface $logger = null) {
+    public function __construct(string $email_from, EntityManagerInterface $manager, TranslatorInterface $translator,
+                                Environment $twig, Swift_Mailer $mailer, IcsHelper $icsHelper, SecurityTools $securityTools, LoggerInterface $logger) {
         $this->email_from = $email_from;
-        $this->om = $objectManager;
+        $this->em = $manager;
         $this->translator = $translator;
         $this->twig = $twig;
         $this->mailer = $mailer;
         $this->icsHelper = $icsHelper;
         $this->securityTools = $securityTools;
-        $this->logger = $logger ?? new NullLogger();
+        $this->logger = $logger;
     }
 
-    public function onEventCreated(EventEvent $eventEvent) {
+    public function onEventCreated(EventCreatedEvent $eventEvent) {
         $this->logger->debug('onEventCreated() start');
 
         $event = $eventEvent->getEvent();
@@ -62,8 +64,8 @@ class EmailNotificationListener implements EventSubscriberInterface {
                     ->setStatus(ParticipationStatus::STATUS_PENDING)
                     ->setLinkToken($this->securityTools->getRandom());
 
-                $this->om->persist($status);
-                $this->om->flush();
+                $this->em->persist($status);
+                $this->em->flush();
             }
 
             $this->translator->setLocale($user->getLanguage());
@@ -102,7 +104,7 @@ class EmailNotificationListener implements EventSubscriberInterface {
         $this->logger->debug('onEventCreated() ended');
     }
 
-    public function onCommentCreated(CommentEvent $commentEvent) {
+    public function onCommentCreated(CommentCreatedEvent $commentEvent) {
         $this->logger->debug('onCommentCreated() started');
 
         $comment = $commentEvent->getComment();
@@ -162,8 +164,8 @@ class EmailNotificationListener implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return [
-            EventEvent::CREATED => 'onEventCreated',
-            CommentEvent::CREATED => 'onCommentCreated'
+            EventCreatedEvent::class => 'onEventCreated',
+            CommentCreatedEvent::class => 'onCommentCreated'
         ];
     }
 }

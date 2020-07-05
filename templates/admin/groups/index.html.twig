@@ -9,53 +9,68 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered card-table">
+                            <colgroup>
+                                <col />
+                                <col class="column-lg" />
+                            </colgroup>
 
-    <div class="card">
-        <table class="table table-striped table-hover">
-            <colgroup>
-                <col />
-                <col class="column-lg" />
-            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.name'|trans }}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
 
-            <thead>
-            <tr>
-                <th>{{ 'label.name'|trans }}</th>
-                <th>{{ 'actions.label'|trans }}</th>
-            </tr>
-            </thead>
+                            <tbody>
+                            {% for group in groups %}
+                                <tr>
+                                    <td>{{ group.name }}</td>
+                                    <td>
+                                        <a href="{{ path('edit_group', { uuid: group.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'manage_groups.edit.label'|trans }}">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
 
-            <tbody>
-            {% for group in groups %}
-                <tr>
-                    <td>{{ group.name }}</td>
-                    <td>
-                        <a href="{{ path('edit_group', { id: group.id }) }}" class="btn btn-sm btn-primary">
-                            {{ 'actions.edit'|trans }}
-                        </a>
+                                        <a href="{{ path('edit_group_memberships', { uuid: group.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'manage_groups.memberships.label'|trans }}">
+                                            <i class="fa fa-users"></i>
+                                        </a>
 
-                        <a href="{{ path('edit_group_memberships', { id: group.id }) }}" class="btn btn-sm btn-primary">
-                            {{ 'manage_groups.memberships.label'|trans }}
-                        </a>
+                                        <a href="{{ path('edit_group_admins', { uuid: group.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'manage_groups.admins.label'|trans }}">
+                                            <i class="fa fa-users-cog"></i>
+                                        </a>
 
-                        <a href="{{ path('edit_group_admins', { id: group.id }) }}" class="btn btn-sm btn-primary">
-                            {{ 'manage_groups.admins.label'|trans }}
-                        </a>
+                                        <a href="{{ path('remove_group', { uuid: group.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'manage_groups.remove.label'|trans }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-                        <a href="{{ path('remove_group', {id: group.id }) }}" class="btn btn-sm btn-danger">
-                            {{ 'actions.remove'|trans }}
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+            <div class="col-md-3">
+                {% if is_granted('add_group') %}
+                    <div class="card">
+                        <div class="list-group list-group-flush">
+                            <a href="{{ path('add_group') }}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-plus"></i> {{ 'manage_groups.add.label'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
-    {% if is_granted('add_group') %}
-    <div class="buttons">
-        <a href="{{ path('add_group') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> {{ 'manage_groups.add.label'|trans }}
-        </a>
-    </div>
-    {% endif %}
+
+
+
 {% endblock %}

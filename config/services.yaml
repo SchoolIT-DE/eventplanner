@@ -29,17 +29,24 @@ services:
       arguments:
         $usernameMapper: "@lightsaml_sp.username_mapper.simple"
 
-    SchoolIT\CommonBundle\Command\CreateCertificateCommand:
+    SchulIT\CommonBundle\Command\CreateCertificateCommand:
         arguments:
-            $keyFile: '%sp_cert_key%'
-            $certFile: '%sp_cert_file%'
+            $types:
+                saml:
+                    $keyFile: '%sp_cert_key%'
+                    $certFile: '%sp_cert_file%'
 
     # Menu
     App\Menu\Builder:
+      arguments:
+        $idpProfileUrl: '%env(IDP_PROFILE_URL)%'
       tags:
         - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
+        - { name: knp_menu.menu_builder, method: userMenu, alias: userMenu }
+        - { name: knp_menu.menu_builder, method: adminMenu, alias: adminMenu }
+        - { name: knp_menu.menu_builder, method: servicesMenu, alias: servicesMenu }
 
-    SchoolIT\CommonBundle\Menu\Voter:
+    SchulIT\CommonBundle\Menu\Voter:
       tags:
         - { name: knp_menu.voter }
 
@@ -60,3 +67,14 @@ services:
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
       arguments:
           - '%env(DATABASE_URL)%'
+
+    # COMMANDS
+    SchulIT\CommonBundle\Command\SendMailsCommand:
+      arguments:
+        $messageLimit: '%env(int:MAILER_LIMIT)%'
+      tags:
+        - { name: shapecode_cron.cron_job, expression: '*\/2 * * * *' }
+
+    # DARK MODE:
+    SchulIT\CommonBundle\DarkMode\DarkModeManagerInterface:
+      class: App\DarkMode\DarkModeManager

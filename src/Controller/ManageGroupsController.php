@@ -7,12 +7,12 @@ use App\Form\GroupAdminsType;
 use App\Form\GroupMembershipsType;
 use App\Form\GroupType;
 use App\Security\Voter\GroupVoter;
-use SchoolIT\CommonBundle\Form\ConfirmType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
-class ManageGroupsController extends Controller {
+class ManageGroupsController extends AbstractController {
 
     /**
      * @Route("/admin/groups", name="manage_groups")
@@ -59,7 +59,7 @@ class ManageGroupsController extends Controller {
     }
 
     /**
-     * @Route("/admin/groups/{id}/edit", name="edit_group")
+     * @Route("/admin/groups/{uuid}/edit", name="edit_group")
      */
     public function edit(Request $request, Group $group) {
         $this->denyAccessUnlessGranted(GroupVoter::EDIT, $group);
@@ -85,7 +85,7 @@ class ManageGroupsController extends Controller {
     }
 
     /**
-     * @Route("/admin/groups/{id}/admins", name="edit_group_admins")
+     * @Route("/admin/groups/{uuid}/admins", name="edit_group_admins")
      */
     public function admins(Request $request, Group $group) {
         $this->denyAccessUnlessGranted(GroupVoter::EDIT, $group);
@@ -111,7 +111,7 @@ class ManageGroupsController extends Controller {
     }
 
     /**
-     * @Route("/admin/groups/{id}/memberships", name="edit_group_memberships")
+     * @Route("/admin/groups/{uuid}/memberships", name="edit_group_memberships")
      */
     public function memberships(Request $request, Group $group) {
         $this->denyAccessUnlessGranted(GroupVoter::EDIT, $group);
@@ -137,15 +137,16 @@ class ManageGroupsController extends Controller {
     }
 
     /**
-     * @Route("/admin/groups/{id}/remove", name="remove_group")
+     * @Route("/admin/groups/{uuid}/remove", name="remove_group")
      */
     public function remove(Request $request, Group $group) {
         $this->denyAccessUnlessGranted(GroupVoter::REMOVE, $group);
 
         $form = $this->createForm(ConfirmType::class, null, [
-            'message' => $this->get('translator')->trans('manage_groups.remove.confirm', [
+            'message' => 'manage_groups.remove.confirm',
+            'message_parameters' =>[
                 '%name%' => $group->getName()
-            ])
+            ]
         ]);
         $form->handleRequest($request);
 

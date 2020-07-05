@@ -1,4 +1,5 @@
 var Encore = require('@symfony/webpack-encore');
+const GlobImporter = require('node-sass-glob-importer');
 
 Encore
     // the project directory where compiled assets will be stored
@@ -16,7 +17,9 @@ Encore
     .addEntry('app', './assets/js/app.js')
 
     // uncomment if you use Sass/SCSS files
-    .enableSassLoader()
+    .enableSassLoader(function(options) {
+        options.importer = GlobImporter();
+    })
 
     // uncomment for legacy applications that require $/jQuery as a global variable
     // .autoProvidejQuery()

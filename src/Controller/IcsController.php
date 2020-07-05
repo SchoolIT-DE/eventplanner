@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Helper\Ics\IcsHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class IcsController extends Controller {
+class IcsController extends AbstractController {
 
     /**
      * @Route("/ics/{token}", name="ics")

@@ -17,6 +17,7 @@ label:
   never: nie
   email: E-Mail Adresse
   admins: Administratoren
+  members: Mitglieder
   confirm: Bestätigen
   language: Sprache
 
@@ -40,7 +41,7 @@ events:
 event:
   created_at: Erstellungsdatum
   person: Veranstalter
-  participants: Teilnehmer (%accepted% / %count%)
+  participants: Teilnehmer
   status:
     success: Status erfolgreich geändert
     error_invalid: Ungültige Status-Angabe
@@ -112,7 +113,7 @@ form:
 
 ics:
   label: Kalender-Synchronisation
-  info: "Wenn du den Kalender in deinem Kalenderprogramm abonnieren möchtest, benutze folgenden Link:"
+  info: "Der folgende Link kann verwendet werden, um alle Termine aus dem Veranstaltungsplaner automatisch in einen externen Kalender zu übernehmen:"
 
 translations:
   de: Deutsch

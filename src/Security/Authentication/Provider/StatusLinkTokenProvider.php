@@ -4,17 +4,17 @@ namespace App\Security\Authentication\Provider;
 
 use App\Entity\ParticipationStatus;
 use App\Security\Token\StatusLinkToken;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class StatusLinkTokenProvider implements AuthenticationProviderInterface {
 
-    private $objectManager;
+    private $em;
 
-    public function __construct(ObjectManager $objectManager) {
-        $this->objectManager = $objectManager;
+    public function __construct(EntityManagerInterface $manager) {
+        $this->em = $manager;
     }
 
     /**
@@ -22,7 +22,7 @@ class StatusLinkTokenProvider implements AuthenticationProviderInterface {
      */
     public function authenticate(TokenInterface $token) {
         /** @var ParticipationStatus $status */
-        $status = $this->objectManager
+        $status = $this->em
             ->getRepository(ParticipationStatus::class)
             ->findOneByLinkToken($token->getToken());
 

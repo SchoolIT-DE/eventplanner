@@ -4,9 +4,11 @@ namespace App\Twig;
 
 use App\Entity\ParticipationStatus;
 use App\Entity\User;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class VpExtension extends \Twig_Extension {
+class VpExtension extends AbstractExtension {
     private $translator;
 
     public function __construct(TranslatorInterface $translator) {
@@ -15,9 +17,9 @@ class VpExtension extends \Twig_Extension {
 
     public function getFilters() {
         return [
-            new \Twig_SimpleFilter('shortdate', [ $this, 'shortdate' ]),
-            new \Twig_SimpleFilter('status', [ $this, 'status' ]),
-            new \Twig_SimpleFilter('user', [ $this, 'user' ])
+            new TwigFilter('shortdate', [ $this, 'shortdate' ]),
+            new TwigFilter('status', [ $this, 'status' ]),
+            new TwigFilter('user', [ $this, 'user' ])
         ];
     }
 

@@ -1,5 +1,5 @@
 {% if is_granted('change_status', event) %}
-<form action="{{ path('change_status', { id: event.id }) }}" method="post">
+<form action="{{ path('change_status', { uuid: event.uuid }) }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrfToken }}" />
 
     <select name="status" class="form-control form-control-sm" data-trigger="submit">

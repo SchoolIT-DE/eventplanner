@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\Group;
 use App\Entity\ParticipationStatus;
 use App\Repository\GroupRepository;
-use SchoolIT\CommonBundle\Form\FieldsetType;
+use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -57,10 +57,14 @@ class EventType extends AbstractType {
                 'fields' => function(FormBuilderInterface $builder) {
                     $builder
                         ->add('start', DateTimeType::class, [
-                            'label' => 'label.start'
+                            'label' => 'label.start',
+                            'date_widget' => 'single_text',
+                            'time_widget' => 'single_text'
                         ])
                         ->add('end', DateTimeType::class, [
-                            'label' => 'label.end'
+                            'label' => 'label.end',
+                            'date_widget' => 'single_text',
+                            'time_widget' => 'single_text'
                         ]);
                 }
             ])

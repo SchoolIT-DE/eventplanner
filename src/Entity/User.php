@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -13,12 +15,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface {
 
+    use IdTrait;
+    use UuidTrait;
+
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid")
+     * @var UuidInterface
      */
-    private $id;
+    private $idpId;
 
     /**
      * @ORM\Column(type="string", length=191, unique=true)
@@ -41,7 +45,7 @@ class User implements UserInterface {
     private $email;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      */
     private $roles = [ 'ROLE_USER' ];
 
@@ -85,15 +89,31 @@ class User implements UserInterface {
      */
     private $language;
 
+    /**
+     * @ORM\Column(type="json")
+     * @var string[]
+     */
+    private $data = [ ];
+
     public function __construct() {
+        $this->uuid = Uuid::uuid4();
         $this->groups = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * @return UuidInterface|null
      */
-    public function getId() {
-        return $this->id;
+    public function getIdpId(): ?UuidInterface {
+        return $this->idpId;
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     * @return User
+     */
+    public function setIdpId(UuidInterface $uuid): User {
+        $this->idpId = $uuid;
+        return $this;
     }
 
     /**
@@ -269,6 +289,14 @@ class User implements UserInterface {
     public function setLanguage($language) {
         $this->language = $language;
         return $this;
+    }
+
+    public function getData(string $key, $default = null) {
+        return $this->data[$key] ?? $default;
+    }
+
+    public function setData(string $key, $data): void {
+        $this->data[$key] = $data;
     }
 
 

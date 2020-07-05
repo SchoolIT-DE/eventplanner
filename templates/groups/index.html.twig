@@ -13,7 +13,7 @@
         <div class="card-header">{{ 'groups.label'|trans }}</div>
         <div class="list-group list-group-flush">
             {% for group in groups %}
-                <a href="{{ path('show_group', { id: group.id }) }}" class="list-group-item">{{ group.name }}</a></li>
+                <a href="{{ path('show_group', { uuid: group.uuid }) }}" class="list-group-item">{{ group.name }}</a></li>
             {% endfor %}
         </div>
     </div>

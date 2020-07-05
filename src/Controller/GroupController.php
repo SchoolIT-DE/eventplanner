@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Group;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class GroupController extends Controller {
+class GroupController extends AbstractController {
 
     /**
      * @Route("/groups", name="groups")
@@ -18,7 +18,7 @@ class GroupController extends Controller {
     }
 
     /**
-     * @Route("/groups/{id}", name="show_group")
+     * @Route("/groups/{uuid}", name="show_group")
      */
     public function show(Group $group) {
         return $this->render('groups/show.html.twig', [

@@ -16,7 +16,8 @@ class GroupMembershipsType extends AbstractType {
                     return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
                 },
                 'multiple' => true,
-                'expanded' => false
+                'expanded' => false,
+                'label' => 'label.members'
             ]);
     }
 }

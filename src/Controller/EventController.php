@@ -6,26 +6,26 @@ use App\Entity\Comment;
 use App\Entity\Event;
 use App\Entity\File;
 use App\Entity\Group;
-use App\Entity\Message;
 use App\Entity\ParticipationStatus;
 use App\Entity\User;
-use App\Event\CommentEvent;
+use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Helper\ParticipationStatus\ParticipationStatusHelper;
 use App\Security\Voter\CommentVoter;
 use App\Security\Voter\EventVoter;
-use SchoolIT\CommonBundle\Form\ConfirmType;
-use SchoolIT\CommonBundle\Helper\DateHelper;
+use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Helper\DateHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class EventController extends Controller {
+class EventController extends AbstractController {
 
     const EVENT_STATUS_TOKEN_ID = 'csrf.event.status';
 
@@ -81,9 +81,9 @@ class EventController extends Controller {
     }
 
     /**
-     * @Route("/events/{id}", name="show_event")
+     * @Route("/events/{uuid}", name="show_event")
      */
-    public function show(Request $request, Event $event, ParticipationStatusHelper $participationStatusHelper) {
+    public function show(Request $request, Event $event, ParticipationStatusHelper $participationStatusHelper, EventDispatcherInterface $eventDispatcher) {
         $this->denyAccessUnlessGranted(EventVoter::VIEW, $event);
 
         $comment = (new Comment())
@@ -99,13 +99,12 @@ class EventController extends Controller {
             $em->persist($comment);
             $em->flush();
 
-            $this->get('event_dispatcher')
-                ->dispatch(CommentEvent::CREATED, new CommentEvent($comment));
+            $eventDispatcher->dispatch(new CommentCreatedEvent($comment));
 
             $this->addFlash('success', 'event.comments.success');
 
             return $this->redirectToRoute('show_event', [
-                'id' => $event->getId()
+                'uuid' => $event->getUuid()
             ]);
         }
 
@@ -128,7 +127,7 @@ class EventController extends Controller {
     }
 
     /**
-     * @Route("/events/{eventId}/file/{id}/{filename}", name="download_file")
+     * @Route("/events/{eventUuid}/file/{uuid}/{filename}", name="download_file")
      */
     public function downloadFile(Request $request, File $file) {
         $this->denyAccessUnlessGranted(EventVoter::VIEW, $file->getEvent());
@@ -147,7 +146,7 @@ class EventController extends Controller {
     }
 
     /**
-     * @Route("/events/{eventId}/comments/{id}/remove", name="remove_comment")
+     * @Route("/events/{eventUuid}/comments/{uuid}/remove", name="remove_comment")
      */
     public function removeComment(Request $request, Comment $comment) {
         $this->denyAccessUnlessGranted(CommentVoter::REMOVE, $comment);
@@ -165,7 +164,7 @@ class EventController extends Controller {
             $this->addFlash('success', 'event.comments.remove.success');
 
             return $this->redirectToRoute('show_event', [
-                'id' => $comment->getEvent()->getId()
+                'uuid' => $comment->getEvent()->getUuid()
             ]);
         }
 
@@ -177,7 +176,7 @@ class EventController extends Controller {
     }
 
     /**
-     * @Route("/events/{id}/change_status", name="change_status")
+     * @Route("/events/{uuid}/change_status", name="change_status")
      */
     public function changeStatus(Request $request, Event $event) {
         $this->denyAccessUnlessGranted(EventVoter::CHANGE_STATUS, $event);
@@ -189,7 +188,7 @@ class EventController extends Controller {
             $this->addFlash('error', 'Invalid CSRF token.');
 
             return $this->redirectToRoute('show_event', [
-                'id' => $event->getId()
+                'uuid' => $event->getUuid()
             ]);
         }
 
@@ -197,7 +196,7 @@ class EventController extends Controller {
             $this->addFlash('error', 'event.status.error_invalid');
 
             return $this->redirectToRoute('show_event', [
-                'id' => $event->getId()
+                'uuid' => $event->getUuid()
             ]);
         }
 
@@ -229,7 +228,7 @@ class EventController extends Controller {
 
         $this->addFlash('success', 'event.status.success');
         return $this->redirectToRoute('show_event', [
-            'id' => $event->getId()
+            'uuid' => $event->getUuid()
         ]);
     }
 

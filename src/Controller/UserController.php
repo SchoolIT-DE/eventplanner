@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class UserController extends Controller {
+class UserController extends AbstractController {
 
     /**
-     * @Route("/users/{id}", name="show_user")
+     * @Route("/users/{uuid}", name="show_user")
      */
     public function show(User $user) {
         return $this->render('users/show.html.twig', [

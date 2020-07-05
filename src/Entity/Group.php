@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,12 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Group {
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(type="string")
@@ -39,15 +35,10 @@ class Group {
     private $admins;
 
     public function __construct() {
+        $this->uuid = Uuid::uuid4();
+
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId() {
-        return $this->id;
     }
 
     /**

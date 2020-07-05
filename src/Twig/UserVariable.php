@@ -20,7 +20,7 @@ class UserVariable {
     private function getToken() {
         $token = $this->tokenStorage->getToken();
 
-        if(!$token instanceof SamlSpToken) {
+        if (!$token instanceof SamlSpToken) {
             throw new \Exception(sprintf('Token must be of type "%s" ("%s" given)', SamlSpToken::class, get_class($token)));
         }
 
@@ -31,7 +31,10 @@ class UserVariable {
      * @return User
      */
     public function getUser() {
-        return $this->getToken()->getUser();
+        /** @var User $user */
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        return $user;
     }
 
     public function getStudentId() {
@@ -51,6 +54,12 @@ class UserVariable {
     }
 
     public function getServices() {
-        return $this->getToken()->getAttribute('services');
+        $token = $this->tokenStorage->getToken();
+
+        if ($token instanceof SamlSpToken) {
+            return $token->getAttribute('services');
+        }
+
+        return [];
     }
 }

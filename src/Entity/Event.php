@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,12 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Event {
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(name="`name`")
@@ -85,6 +82,8 @@ class Event {
     private $files;
 
     public function __construct() {
+        $this->uuid = Uuid::uuid4();
+
         $this->groups = new ArrayCollection();
         $this->participants = new ArrayCollection();
         $this->comments = new ArrayCollection();

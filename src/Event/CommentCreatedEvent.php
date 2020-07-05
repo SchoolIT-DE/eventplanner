@@ -3,11 +3,9 @@
 namespace App\Event;
 
 use App\Entity\Comment;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class CommentEvent extends Event {
-    const CREATED = 'vp.comment.created';
-
+class CommentCreatedEvent extends Event {
     private $comment;
 
     public function __construct(Comment $comment) {

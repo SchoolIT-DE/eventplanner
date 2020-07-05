@@ -10,48 +10,61 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">{{ group.name }}</div>
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">{{ group.name }}</div>
 
-        <table class="table table-striped table-hover">
-            <colgroup>
-                <col />
-                <col class="column-lg" />
-            </colgroup>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered card-table">
+                            <colgroup>
+                                <col />
+                                <col class="column-lg" />
+                            </colgroup>
 
-            <thead>
-            <tr>
-                <th>{{ 'label.name'|trans }}</th>
-                <th>{{ 'label.email'|trans }}</th>
-            </tr>
-            </thead>
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.name'|trans }}</th>
+                                <th>{{ 'label.email'|trans }}</th>
+                            </tr>
+                            </thead>
 
-            <tbody>
-            {% for user in group.members %}
-                <tr>
-                    <td>{{ user|user }}</td>
-                    <td>
-                        <a href="mailto:{{ user.lastname}}, {{ user.firstname }} <{{ user.email }}>"><i class="fas fa-envelope"></i> {{ user.email }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                            <tbody>
+                            {% for user in group.members %}
+                                <tr>
+                                    <td>{{ user|user }}</td>
+                                    <td>
+                                        <a href="mailto:{{ user.lastname}}, {{ user.firstname }} <{{ user.email }}>"><i class="fas fa-envelope"></i> {{ user.email }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <a href="mailto: {% for user in group.members %}{{ user.lastname }}, {{ user.firstname }} <{{ user.email }}>{% if not loop.last %}; {% endif %}{% endfor %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-mail-bulk"> </i> {{ 'groups.mail'|trans }}
+                        </a>
 
-    <div class="buttons">
-        <a href="{{ path('groups') }}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-arrow-left"></i> {{ 'actions.back'|trans }}
-        </a>
+                        {% if is_granted('edit', group) %}
+                            <a href="{{ path('edit_group', { uuid group.uuid }) }}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-edit"> </i> {{ 'manage_groups.edit.label'|trans }}
+                            </a>
+                        {% endif %}
 
-        <a href="mailto: {% for user in group.members %}{{ user.lastname }}, {{ user.firstname }} <{{ user.email }}>{% if not loop.last %}; {% endif %}{% endfor %}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-mail-bulk"> </i> {{ 'groups.mail'|trans }}
-        </a>
-
-        {% if is_granted('edit', group) %}
-            <a href="{{ path('edit_group', { id: group.id }) }}" class="btn btn-secondary btn-sm">
-                <i class="fas fa-edit"> </i> {{ 'actions.edit'|trans }}
-            </a>
-        {% endif %}
+                        {% if is_granted('remove', group) %}
+                            <a href="{{ path('remove_group', { uuid: group.uuid }) }}" class="list-group-item list-group-item-danger">
+                                <i class="fas fa-edit"> </i> {{ 'manage_groups.remove.label'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

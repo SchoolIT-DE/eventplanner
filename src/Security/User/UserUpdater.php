@@ -5,9 +5,7 @@ namespace App\Security\User;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-use SchoolIT\CommonBundle\Security\AuthenticationEvent;
-use SchoolIT\CommonBundle\Security\SecurityEvents;
+use SchulIT\CommonBundle\Security\AuthenticationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UserUpdater implements EventSubscriberInterface {
@@ -21,13 +19,13 @@ class UserUpdater implements EventSubscriberInterface {
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(EntityManagerInterface $em, UserMapper $userMapper, LoggerInterface $logger = null) {
+    public function __construct(EntityManagerInterface $em, UserMapper $userMapper, LoggerInterface $logger) {
         $this->em = $em;
         $this->userMapper = $userMapper;
-        $this->logger = $logger ?? new NullLogger();
+        $this->logger = $logger;
     }
 
-    public function onAuthenticationSuccess(AuthenticationEvent $event) {
+    public function onAuthentication(AuthenticationEvent $event) {
         $token = $event->getToken();
         $user = $event->getUser();
 
@@ -63,9 +61,7 @@ class UserUpdater implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return [
-            SecurityEvents::SAML_AUTHENTICATION_SUCCESS => [
-                [ 'onAuthenticationSuccess', 10 ]
-            ]
+            AuthenticationEvent::class => 'onAuthentication'
         ];
     }
 }

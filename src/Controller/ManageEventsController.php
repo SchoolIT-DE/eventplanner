@@ -6,18 +6,20 @@ use App\Entity\Event;
 use App\Entity\File;
 use App\Entity\Group;
 use App\Entity\ParticipationStatus;
-use App\Event\EventEvent;
+use App\Event\EventCreatedEvent;
 use App\Form\EventType;
 use App\Helper\Grouping\EventGrouper;
 use App\Helper\SecurityTools;
 use App\Security\Voter\EventVoter;
-use SchoolIT\CommonBundle\Form\ConfirmType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SchulIT\CommonBundle\Form\ConfirmType;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class ManageEventsController extends Controller {
+class ManageEventsController extends AbstractController {
     /**
      * @Route("/admin/events", name="manage_events")
      */
@@ -41,7 +43,7 @@ class ManageEventsController extends Controller {
     /**
      * @Route("/admin/events/add", name="add_event")
      */
-    public function add(Request $request, SecurityTools $securityTools) {
+    public function add(Request $request, SecurityTools $securityTools, UploadableManager $uploadableManager, EventDispatcherInterface $eventDispatcher) {
         $event = new Event();
 
         $form = $this->createForm(EventType::class, $event);
@@ -52,7 +54,7 @@ class ManageEventsController extends Controller {
 
             $em = $this->getDoctrine()->getManager();
 
-            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+            //$uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
             /** @var UploadedFile[] $uploadedFiles */
             $uploadedFiles = $form->get('group_files')->get('files')->getData();
             foreach($uploadedFiles as $uploadedFile) {
@@ -78,12 +80,12 @@ class ManageEventsController extends Controller {
 
             $em->flush();
 
-            $this->get('event_dispatcher')
-                ->dispatch(EventEvent::CREATED, new EventEvent($event));
+            $eventDispatcher
+                ->dispatch(new EventCreatedEvent($event));
 
             $this->addFlash('success', 'manage_events.add.success');
             return $this->redirectToRoute('show_event', [
-                'id' => $event->getId()
+                'uuid' => $event->getUuid()
             ]);
         }
 
@@ -93,7 +95,7 @@ class ManageEventsController extends Controller {
     }
 
     /**
-     * @Route("/admin/events/{id}/edit", name="edit_event")
+     * @Route("/admin/events/{uuid}/edit", name="edit_event")
      */
     public function edit(Request $request, Event $event) {
         $this->denyAccessUnlessGranted(EventVoter::EDIT, $event);
@@ -109,7 +111,7 @@ class ManageEventsController extends Controller {
 
             $this->addFlash('success', 'manage_events.edit.success');
             return $this->redirectToRoute('show_event', [
-                'id' => $event->getId()
+                'uuid' => $event->getUuid()
             ]);
         }
 
@@ -120,15 +122,16 @@ class ManageEventsController extends Controller {
     }
 
     /**
-     * @Route("/admin/events/{id}/remove", name="remove_event")
+     * @Route("/admin/events/{uuid}/remove", name="remove_event")
      */
     public function remove(Request $request, Event $event) {
         $this->denyAccessUnlessGranted(EventVoter::REMOVE, $event);
 
         $form = $this->createForm(ConfirmType::class, null, [
-            'message' => $this->get('translator')->trans('manage_events.remove.confirm', [
+            'message' => 'manage_events.remove.confirm',
+            'message_parameters' => [
                 '%name%' => $event->getName()
-            ])
+            ]
         ]);
         $form->handleRequest($request);
 

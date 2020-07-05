@@ -1,12 +1,14 @@
+parameters:
+  project_url: https://github.com/schulit/eventplanner
+
 common:
   app:
     url: "%env(APP_URL)%"
     name: "%env(APP_NAME)%"
     version: "%version%"
+    project_url: "%project_url%"
     logo: "%env(APP_LOGO)%"
+    small_logo: "%env(APP_SMALLLOGO)%"
   locales: "%locales%"
+
   menu: mainMenu
-  templates:
-    mail: '_mail/index.html.twig'
-    logs: '_logs/index.html.twig'
-    clear_logs: '_logs/clear.html.twig'

@@ -4,13 +4,12 @@ namespace App\Security\Firewall;
 
 use App\Security\Token\CalendarToken;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
-class CalendarTokenListener implements ListenerInterface {
+class CalendarTokenListener {
 
     const PARAM_NAME = 'token';
 
@@ -25,7 +24,7 @@ class CalendarTokenListener implements ListenerInterface {
     /**
      * @inheritDoc
      */
-    public function handle(GetResponseEvent $event) {
+    public function __invoke(RequestEvent $event) {
         $request = $event->getRequest();
         $params = $request->attributes->get('_route_params');
 

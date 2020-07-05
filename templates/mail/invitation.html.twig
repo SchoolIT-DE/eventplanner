@@ -71,17 +71,17 @@
 
                 <ul>
                     <li>
-                        <a href="{{ url('change_status_mail', { id: event.id, token: status.linkToken, status: 2 }) }}">
+                        <a href="{{ url('change_status_mail', { uuid: event.uuid, token: status.linkToken, status: 2 }) }}">
                             {{ 'event.actions.accept'|trans({}, 'mail') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('change_status_mail', { id: event.id, token: status.linkToken, status: 3 }) }}">
+                        <a href="{{ url('change_status_mail', { uuid: event.uuid, token: status.linkToken, status: 3 }) }}">
                             {{ 'event.actions.decline'|trans({}, 'mail') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('change_status_mail', { id: event.id, token: status.linkToken, status: 4} ) }}">
+                        <a href="{{ url('change_status_mail', { uuid: event.uuid, token: status.linkToken, status: 4} ) }}">
                             {{ 'event.actions.maybe'|trans({}, 'mail') }}
                         </a>
                     </li>

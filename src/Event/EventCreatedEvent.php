@@ -2,12 +2,10 @@
 
 namespace App\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use App\Entity\Event as EventEntity;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class EventEvent extends Event {
-    const CREATED = 'vp.event.created';
-
+class EventCreatedEvent extends Event {
     private $event;
 
     public function __construct(EventEntity $event) {

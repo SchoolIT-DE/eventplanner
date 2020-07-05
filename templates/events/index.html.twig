@@ -9,90 +9,106 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% if all_events %}
-                {{ 'events.all.label'|trans }}
-            {% else %}
-                {{ 'events.label'|trans }}
-            {% endif %}
-        </div>
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        {% if all_events %}
+                            {{ 'events.all.label'|trans }}
+                        {% else %}
+                            {{ 'events.label'|trans }}
+                        {% endif %}
+                    </div>
 
-        {% if events|length == 0%}
-            <div class="card-body">
-                <div class="bs-callout bs-callout-info">
-                    <h4>{{ 'info.label'|trans }}</h4>
-                    <p>{{ 'events.none'|trans }}</p>
+                    {% if events|length == 0%}
+                        <div class="card-body">
+                            <div class="bs-callout bs-callout-info">
+                                <h4>{{ 'info.label'|trans }}</h4>
+                                <p>{{ 'events.none'|trans }}</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered card-table">
+                                <colgroup>
+                                    <col />
+                                    <col class="column-lg" />
+                                    <col class="column-md" />
+                                    <col class="column-lg" />
+                                    <col class="column-md" />
+                                    <col class="column-md" />
+                                </colgroup>
+
+                                <thead>
+                                <tr>
+                                    <th>{{ 'label.name'|trans }}</th>
+                                    <th>{{ 'label.groups'|trans }}</th>
+                                    <th>{{ 'label.date_time'|trans }}</th>
+                                    <th>{{ 'event.person'|trans }}</th>
+                                    <th>{{ 'label.status'|trans }}</th>
+                                    <th>{{ 'status.accepted'|trans }}</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for event in events %}
+                                    <tr>
+                                        <td><a href="{{ path('show_event', { uuid: event.uuid }) }}">{{ event.name }}</a></td>
+                                        <td>
+                                            {% for group in event.groups %}<a href="{{ path('show_group', { uuid: group.uuid }) }}">{{ group.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                                        </td>
+                                        <td>{{ event.start|shortdate }}</td>
+                                        <td>{{ event.createdBy|user }}</td>
+                                        <td>
+                                            {% include 'includes/change_status.html.twig' with { event: event, csrfToken: csrfToken, status: ownParticipation[event.id].status } only %}
+                                        </td>
+                                        <td>
+                                            {{ accepted[event.id] }} / {{ participants[event.id]|length }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-        {% else %}
-        <table class="table table-striped table-hover">
-            <colgroup>
-                <col />
-                <col class="column-lg" />
-                <col class="column-md" />
-                <col class="column-lg" />
-                <col class="column-md" />
-                <col class="column-md" />
-            </colgroup>
 
-            <thead>
-            <tr>
-                <th>{{ 'label.name'|trans }}</th>
-                <th>{{ 'label.groups'|trans }}</th>
-                <th>{{ 'label.date_time'|trans }}</th>
-                <th>{{ 'event.person'|trans }}</th>
-                <th>{{ 'label.status'|trans }}</th>
-                <th>{{ 'status.accepted'|trans }}</th>
-            </tr>
-            </thead>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        {% if all_events %}
+                            <a href="{{ path('events') }}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-arrow-left"></i> {{ 'actions.back'|trans }}
+                            </a>
+                        {% else %}
+                            <a href="{{ path('all_events') }}" class="list-group-item list-group-item-action">
+                                <i class="far fa-calendar-alt"></i> {{ 'events.all.button'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
 
-            <tbody>
-            {% for event in events %}
-                <tr>
-                    <td><a href="{{ path('show_event', { id: event.id }) }}">{{ event.name }}</a></td>
-                    <td>
-                        {% for group in event.groups %}<a href="{{ path('show_group', { id: group.id }) }}">{{ group.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
-                    </td>
-                    <td>{{ event.start|shortdate }}</td>
-                    <td>{{ event.createdBy|user }}</td>
-                    <td>
-                        {% include 'includes/change_status.html.twig' with { event: event, csrfToken: csrfToken, status: ownParticipation[event.id].status } only %}
-                    </td>
-                    <td>
-                        {{ accepted[event.id] }} / {{ participants[event.id]|length }}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
-    </div>
+                <div class="card">
+                    <div class="card-header">{{ 'ics.label'|trans }}</div>
 
-    <div class="buttons mb-3">
-        {% if all_events %}
-            <a href="{{ path('events') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-arrow-left"></i> {{ 'actions.back'|trans }}
-            </a>
-        {% else %}
-            <a href="{{ path('all_events') }}" class="btn btn-primary btn-sm">
-                {{ 'events.all.button'|trans }}
-            </a>
-        {% endif %}
-    </div>
+                    <div class="card-body">
+                        <p>{{ 'ics.info'|trans }}</p>
 
-    <div class="card">
-        <div class="card-header">{{ 'ics.label'|trans }}</div>
-
-        <div class="card-body">
-            <p>{{ 'ics.info'|trans }}</p>
-
-            <div class="input-group">
-                <input id="calendar-url" type="text" class="form-control" readonly="readonly" value="{{ url('ics', { token: app.user.calendarToken }) }}" />
-                <div class="input-group-append">
-                    <button class="btn btn-secondary" data-clipboard-target="#calendar-url"><i class="fas fa-copy"></i></button>
+                        <div class="input-group">
+                            <input id="calendar-url" type="text" class="form-control" readonly="readonly" value="{{ url('ics', { token: app.user.calendarToken }) }}" />
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" data-clipboard-text="{{ url('ics', { token: app.user.calendarToken }) }}">
+                                    <i class="fa fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 {% endblock %}
