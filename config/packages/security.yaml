@@ -7,7 +7,7 @@ security:
        database:
            entity:
                class: App:User
-               property: username
+               property: idpId
 
        cron:
          memory:
@@ -50,6 +50,10 @@ security:
             anonymous: ~
             pattern: ^/saml/(login|discovery)$
 
+        logout:
+            anonymous: ~
+            pattern: ^/logout/success
+
         status_change:
             pattern: ^/mail/change_status
             stateless: true
@@ -65,13 +69,16 @@ security:
         secured:
             pattern: ^/
             light_saml_sp:
-                provider: database       # users provider name configured in step 9
+                provider: database
                 user_creator: App\Security\User\UserCreator
                 login_path: /saml/login
                 check_path: /saml/login_check
                 attribute_mapper: App\Security\User\AttributeMapper
+                token_factory: SchulIT\CommonBundle\Security\Factory\SamlSpTokenFactory
+                failure_path: /auth/error
             logout:
                 path: /logout
+                target: /logout/success
 
         main:
             anonymous: ~

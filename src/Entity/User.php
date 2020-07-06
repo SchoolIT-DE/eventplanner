@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity()
  * @UniqueEntity(fields={"username", "calendarToken"})
  */
-class User implements UserInterface {
+class User implements UserInterface, Serializable {
 
     use IdTrait;
     use UuidTrait;
@@ -350,4 +351,21 @@ class User implements UserInterface {
      * @inheritDoc
      */
     public function eraseCredentials() { }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize() {
+        return serialize([
+            $this->getId(),
+            $this->getUsername()
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized) {
+        list($this->id, $this->username) = unserialize($serialized);
+    }
 }
