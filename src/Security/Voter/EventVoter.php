@@ -71,7 +71,7 @@ class EventVoter extends Voter {
         throw new \LogicException('This code should not be executed');
     }
 
-    private function canAdd(Event $event, TokenInterface $token) {
+    private function canAdd(?Event $event, TokenInterface $token) {
         if($this->accessDecisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
@@ -82,7 +82,7 @@ class EventVoter extends Voter {
             return false;
         }
 
-        return $this->isUserAdminOfAnyGroup($event->getGroups(), $user);
+        return $this->isUserAdminOfAnyGroup($user, $event === null ? $event->getGroups() : null);
     }
 
     private function canEditOrRemove(Event $event, TokenInterface $token) {
@@ -153,11 +153,15 @@ class EventVoter extends Voter {
     }
 
     /**
-     * @param Group[] $groups
      * @param User $user
+     * @param Group[] $groups
      * @return bool
      */
-    private function isUserAdminOfAnyGroup($groups, User $user) {
+    private function isUserAdminOfAnyGroup(User $user, ?array $groups) {
+        if($groups === null) {
+            $groups = $user->getGroups();
+        }
+
         foreach($groups as $group) {
             if($this->isUserAdminOfGroup($group, $user)) {
                 return true;
