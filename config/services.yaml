@@ -29,8 +29,8 @@ services:
         arguments:
             $types:
                 saml:
-                    $keyFile: '%sp_cert_key%'
-                    $certFile: '%sp_cert_file%'
+                    keyFile: '%sp_cert_key%'
+                    certFile: '%sp_cert_file%'
 
     # Menu
     App\Menu\Builder:
