@@ -2,7 +2,7 @@
 <form action="{{ path('change_status', { uuid: event.uuid }) }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrfToken }}" />
 
-    <select name="status" class="form-control form-control-sm" data-trigger="submit">
+    <select name="status" class="custom-select custom-select-sm" data-trigger="submit">
         <option value=""{% if status > 1 %} disabled{% endif %}>{{ 'status.pending'|trans }}</option>
         <option value="2"{% if status == 2 %} selected{% endif %}>{{ 'status.accepted'|trans }}</option>
         <option value="3"{% if status == 3 %} selected{% endif %}>{{ 'status.declined'|trans }}</option>
