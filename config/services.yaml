@@ -32,6 +32,11 @@ services:
                     keyFile: '%sp_cert_key%'
                     certFile: '%sp_cert_file%'
 
+    SchulIT\CommonBundle\EventSubscriber\SamlExceptionSubscriber:
+      arguments:
+        $retryRoute: 'dashboard'
+        $loggedInRoute: 'dashboard'
+
     # Menu
     App\Menu\Builder:
       arguments:

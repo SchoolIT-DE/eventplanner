@@ -15,6 +15,7 @@ Encore
     // .addEntry('js/app', './assets/js/app.js')
     // .addStyleEntry('css/app', './assets/css/app.scss')
     .addEntry('app', './assets/js/app.js')
+    .addStyleEntry('simple', './vendor/schulit/common-bundle/Resources/assets/css/simple.scss')
 
     // uncomment if you use Sass/SCSS files
     .enableSassLoader(function(options) {
