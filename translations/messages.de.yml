@@ -117,6 +117,19 @@ ics:
 administration:
   label: Verwaltung
 
+profile:
+  overview:
+    label: Profil
+  success: Profil erfolgreich aktualisiert
+  notifications:
+    new_event:
+      label: E-Mail Benachrichtigung bei neuem Termin
+      help: Versendet eine E-Mail Benachrichtigung an die hinterlegte E-Mail-Adresse, sobald ein neuer Termin erstellt wurde.
+    new_comment:
+      label: E-Mail Benachrichtigung bei neuem Kommentar
+      help: Versendet eine E-Mail Benachrichtigung an die hinterlegte E-Mail-Adresse, sobald ein neuer Kommentar verfasst wurde.
+
+
 user:
   info:
     roles: Benutzerrollen

@@ -1,13 +1,19 @@
 {% extends "main.html.twig" %}
 
-{% block title %}{{ 'preferences.language.label'|trans }}{% endblock %}
+{% block title %}{{ 'profile.overview.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
 
 {% block content %}
 
     {{ form_start(form) }}
 
     <div class="card">
-        <div class="card-header">{{ 'preferences.language.label'|trans }}</div>
+        <div class="card-header">{{ 'label.general'|trans }}</div>
 
         <div class="card-body">
             {{ form_widget(form) }}

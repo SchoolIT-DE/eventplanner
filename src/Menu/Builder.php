@@ -94,6 +94,11 @@ class Builder {
             ->setExtra('menu-container', '#submenu')
             ->setExtra('pull-right', true);
 
+        $userMenu->addChild('profile.overview.label', [
+            'route' => 'profile'
+        ])
+            ->setAttribute('icon', 'far fa-user');
+
         $userMenu->addChild('profile.label', [
             'uri' => $this->idpProfileUrl
         ])
