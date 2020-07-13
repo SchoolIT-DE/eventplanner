@@ -52,13 +52,13 @@
                         </a>
 
                         {% if is_granted('edit', group) %}
-                            <a href="{{ path('edit_group', { uuid group.uuid }) }}" class="list-group-item list-group-item-action">
+                            <a href="{{ path('edit_group', { uuid: group.uuid }) }}" class="list-group-item list-group-item-action">
                                 <i class="fas fa-edit"> </i> {{ 'manage_groups.edit.label'|trans }}
                             </a>
                         {% endif %}
 
                         {% if is_granted('remove', group) %}
-                            <a href="{{ path('remove_group', { uuid: group.uuid }) }}" class="list-group-item list-group-item-danger">
+                            <a href="{{ path('remove_group', { uuid: group.uuid }) }}" class="list-group-item list-group-item-action list-group-item-danger">
                                 <i class="fas fa-edit"> </i> {{ 'manage_groups.remove.label'|trans }}
                             </a>
                         {% endif %}
