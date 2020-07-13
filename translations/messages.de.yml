@@ -19,7 +19,6 @@ label:
   admins: Administratoren
   members: Mitglieder
   confirm: Bestätigen
-  language: Sprache
 
 actions:
   label: Aktionen
@@ -115,16 +114,6 @@ ics:
   label: Kalender-Synchronisation
   info: "Der folgende Link kann verwendet werden, um alle Termine aus dem Veranstaltungsplaner automatisch in einen externen Kalender zu übernehmen:"
 
-translations:
-  de: Deutsch
-  en: Englisch
-
-preferences:
-  language:
-    label: E-Mail Sprache festlegen
-    success: Sprache erfolgreich gespeichert
-    message: Die E-Mail Sprache muss festgelegt werden
-
 administration:
   label: Verwaltung
 
@@ -133,9 +122,6 @@ user:
     roles: Benutzerrollen
   contact:
     label: Kontaktinformationen
-    phone: Telefonnummer
-    mobile: Handynummer
-    address: Adresse
     none: Nicht angegeben
 
 now: jetzt

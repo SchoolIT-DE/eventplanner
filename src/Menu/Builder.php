@@ -94,11 +94,6 @@ class Builder {
             ->setExtra('menu-container', '#submenu')
             ->setExtra('pull-right', true);
 
-        $userMenu->addChild('preferences.language.label', [
-            'route' => 'language'
-        ])
-            ->setAttribute('icon', 'fas fa-language');
-
         $userMenu->addChild('profile.label', [
             'uri' => $this->idpProfileUrl
         ])

@@ -51,21 +51,6 @@ class User implements UserInterface, Serializable {
     private $roles = [ 'ROLE_USER' ];
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $phone;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $mobile;
-
-    /**
      * @ORM\Column(type="string", length=128, nullable=true, unique=true)
      */
     private $calendarToken;
@@ -84,11 +69,6 @@ class User implements UserInterface, Serializable {
      * @ORM\ManyToMany(targetEntity="Group", mappedBy="members")
      */
     private $groups;
-
-    /**
-     * @ORM\Column(type="string", length=3, nullable=true)
-     */
-    private $language;
 
     /**
      * @ORM\Column(type="json")
@@ -166,54 +146,6 @@ class User implements UserInterface, Serializable {
     }
 
     /**
-     * @return string
-     */
-    public function getAddress() {
-        return $this->address;
-    }
-
-    /**
-     * @param string $address
-     * @return User
-     */
-    public function setAddress($address) {
-        $this->address = $address;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPhone() {
-        return $this->phone;
-    }
-
-    /**
-     * @param string $phone
-     * @return User
-     */
-    public function setPhone($phone) {
-        $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMobile() {
-        return $this->mobile;
-    }
-
-    /**
-     * @param string $mobile
-     * @return User
-     */
-    public function setMobile($mobile) {
-        $this->mobile = $mobile;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getCalendarToken() {
@@ -276,22 +208,6 @@ class User implements UserInterface, Serializable {
         $this->groups->removeElement($group);
     }
 
-    /**
-     * @return string
-     */
-    public function getLanguage() {
-        return $this->language;
-    }
-
-    /**
-     * @param string $language
-     * @return User
-     */
-    public function setLanguage($language) {
-        $this->language = $language;
-        return $this;
-    }
-
     public function getData(string $key, $default = null) {
         return $this->data[$key] ?? $default;
     }
@@ -299,7 +215,6 @@ class User implements UserInterface, Serializable {
     public function setData(string $key, $data): void {
         $this->data[$key] = $data;
     }
-
 
     /**
      * @inheritDoc

@@ -51,10 +51,6 @@ class EmailNotificationListener implements EventSubscriberInterface {
         $this->logger->debug(sprintf('onEventCreated() sending mails to %d users', count($users)));
 
         foreach ($users as $user) {
-            if($user->getLanguage() === null) {
-                continue;
-            }
-
             $status = $event->getParticipantionStatusFor($user);
 
             if($status === null) {
@@ -67,8 +63,6 @@ class EmailNotificationListener implements EventSubscriberInterface {
                 $this->em->persist($status);
                 $this->em->flush();
             }
-
-            $this->translator->setLocale($user->getLanguage());
 
             $subject = $this->translator->trans('comment.subject', [ '%event%' => $event->getName() ], 'mail');
             $content = $this->twig->render('mail/invitation.html.twig', [
@@ -117,12 +111,6 @@ class EmailNotificationListener implements EventSubscriberInterface {
         $this->logger->debug(sprintf('onCommentCreated() sending mails to %d users', count($users)));
 
         foreach($users as $user) {
-            if($user->getLanguage() === null) {
-                continue;
-            }
-
-            $this->translator->setLocale($user->getLanguage());
-
             $subject = $this->translator->trans('comment.subject', [ '%event%' => $event->getName() ], 'mail');
             $content = $this->twig->render('mail/new_comment.html.twig', [
                 'users' => $user,

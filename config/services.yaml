@@ -50,11 +50,6 @@ services:
       arguments:
         $timezone: '%env(TIMEZONE)%'
 
-    # Listeners
-    App\EventListener\UserSetLanguageListener:
-      arguments:
-        $redirectRoute: "language"
-
     App\Notification\EmailNotificationListener:
       arguments:
         $email_from: '%env(MAILER_FROM)%'
