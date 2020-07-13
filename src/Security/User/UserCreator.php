@@ -26,6 +26,7 @@ class UserCreator implements UserCreatorInterface {
 
     public function __construct(EntityManagerInterface $entityManager, UserMapper $userMapper, SecurityTools $securityTools) {
         $this->em = $entityManager;
+        $this->userMapper = $userMapper;
         $this->securityTools = $securityTools;
     }
 
