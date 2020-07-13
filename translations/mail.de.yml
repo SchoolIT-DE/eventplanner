@@ -1,5 +1,5 @@
 greeting: Hallo, %firstname% %lastname%!
-farewell: "Mit freundlichen Grüßen,\nDas Team vom Veranstaltungsplaner"
+farewell: "Mit freundlichen Grüßen\nDas Team vom Veranstaltungsplaner"
 
 comment:
   subject: Neuer Kommentar zu %event%
@@ -16,7 +16,7 @@ message:
 
 event:
   subject: Einladung zu %event%
-  info: 'Sie wurden von %firstname% %lastname% zu dem Termin "%event%" eingeladen.'
+  info: '%firstname% %lastname% hat zu dem Termin "%event%" eingeladen.'
   actions:
     label: Aktionen
     accept: zusagen
