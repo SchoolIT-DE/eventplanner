@@ -51,6 +51,10 @@ class EmailNotificationListener implements EventSubscriberInterface {
         $this->logger->debug(sprintf('onEventCreated() sending mails to %d users', count($users)));
 
         foreach ($users as $user) {
+            if($user->isMailOnNewEventEnabled() === false) {
+                continue;
+            }
+
             $status = $event->getParticipantionStatusFor($user);
 
             if($status === null) {
@@ -111,6 +115,10 @@ class EmailNotificationListener implements EventSubscriberInterface {
         $this->logger->debug(sprintf('onCommentCreated() sending mails to %d users', count($users)));
 
         foreach($users as $user) {
+            if($user->isMailOnNewCommentEnabled() === false) {
+                continue;
+            }
+
             $subject = $this->translator->trans('comment.subject', [ '%event%' => $event->getName() ], 'mail');
             $content = $this->twig->render('mail/new_comment.html.twig', [
                 'users' => $user,
