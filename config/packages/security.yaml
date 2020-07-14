@@ -10,11 +10,7 @@ security:
                property: idpId
 
        cron:
-         memory:
-           users:
-             cron:
-               password: '%env(CRON_PASSWORD)%'
-               roles: [ 'ROLE_CRON' ]
+         id: App\Security\CronUserProvider
 
        status_link:
           id: App\Security\Authentication\Provider\StatusLinkTokenProvider
@@ -23,8 +19,7 @@ security:
           id: App\Security\Authentication\Provider\CalendarTokenProvider
 
     encoders:
-      Symfony\Component\Security\Core\User\User: plaintext
-      AppBundle\Entity\User: bcrypt
+      Symfony\Component\Security\Core\User\User: auto
 
     access_control:
       - { path: ^/admin, roles: ROLE_ADMIN }
