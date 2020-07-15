@@ -61,13 +61,13 @@ class Builder {
         $menu->addChild('events.label', [
             'route' => 'events'
         ])
-            ->setAttribute('count', $this->em->getRepository(Event::class)->countForGroups($user->getGroups()->toArray(), $this->dateHelper->getToday()))
-        ->setAttribute('icon', 'far fa-calendar-alt');
+            ->setExtra('count', $this->em->getRepository(Event::class)->countForGroups($user->getGroups()->toArray(), $this->dateHelper->getToday()))
+            ->setExtra('icon', 'far fa-calendar-alt');
 
         $menu->addChild('groups.label', [
             'route' => 'groups'
         ])
-            ->setAttribute('icon', 'fas fa-users');
+            ->setExtra('icon', 'fas fa-users');
 
         return $menu;
     }
@@ -89,7 +89,7 @@ class Builder {
         $userMenu = $menu->addChild('user', [
             'label' => $displayName
         ])
-            ->setAttribute('icon', 'fa fa-user')
+            ->setExtra('icon', 'fa fa-user')
             ->setExtra('menu', 'user')
             ->setExtra('menu-container', '#submenu')
             ->setExtra('pull-right', true);
@@ -97,13 +97,13 @@ class Builder {
         $userMenu->addChild('profile.overview.label', [
             'route' => 'profile'
         ])
-            ->setAttribute('icon', 'far fa-user');
+            ->setExtra('icon', 'far fa-user');
 
         $userMenu->addChild('profile.label', [
             'uri' => $this->idpProfileUrl
         ])
             ->setAttribute('target', '_blank')
-            ->setAttribute('icon', 'far fa-address-card');
+            ->setExtra('icon', 'far fa-address-card');
 
         $label = 'dark_mode.enable';
         $icon = 'far fa-moon';
@@ -116,13 +116,13 @@ class Builder {
         $userMenu->addChild($label, [
             'route' => 'toggle_darkmode'
         ])
-            ->setAttribute('icon', $icon);
+            ->setExtra('icon', $icon);
 
         $menu->addChild('label.logout', [
             'route' => 'logout',
             'label' => ''
         ])
-            ->setAttribute('icon', 'fas fa-sign-out-alt')
+            ->setExtra('icon', 'fas fa-sign-out-alt')
             ->setAttribute('title', $this->translator->trans('auth.logout'));
 
         return $menu;
@@ -137,7 +137,7 @@ class Builder {
         $menu = $root->addChild('admin', [
             'label' => ''
         ])
-            ->setAttribute('icon', 'fa fa-cogs')
+            ->setExtra('icon', 'fa fa-cogs')
             ->setAttribute('title', $this->translator->trans('administration.label'))
             ->setExtra('menu', 'admin')
             ->setExtra('menu-container', '#submenu')
@@ -152,28 +152,28 @@ class Builder {
             $menu->addChild('manage_groups.label', [
                 'route' => 'manage_groups'
             ])
-                ->setAttribute('icon', 'fas fa-users');
+                ->setExtra('icon', 'fas fa-users');
 
             $menu->addChild('manage_events.label', [
                 'route' => 'manage_events'
             ])
-                ->setAttribute('icon', 'far fa-calendar-alt');
+                ->setExtra('icon', 'far fa-calendar-alt');
         }
 
         if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('cron.label', [
                 'route' => 'admin_cronjobs'
             ])
-                ->setAttribute('icon', 'fas fa-history');
+                ->setExtra('icon', 'fas fa-history');
 
             $menu->addChild('logs.label', [
                 'route' => 'admin_logs'
             ])
-                ->setAttribute('icon', 'fas fa-clipboard-list');
+                ->setExtra('icon', 'fas fa-clipboard-list');
             $menu->addChild('mails.label', [
                 'route' => 'admin_mails'
             ])
-                ->setAttribute('icon', 'far fa-envelope');
+                ->setExtra('icon', 'far fa-envelope');
         }
 
         return $root;
@@ -191,7 +191,7 @@ class Builder {
             $menu = $root->addChild('services', [
                 'label' => ''
             ])
-                ->setAttribute('icon', 'fa fa-th')
+                ->setExtra('icon', 'fa fa-th')
                 ->setExtra('menu', 'services')
                 ->setExtra('pull-right', true)
                 ->setAttribute('title', $this->translator->trans('services.label'));
