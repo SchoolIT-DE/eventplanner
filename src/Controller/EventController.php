@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Helper\ParticipationStatus\ParticipationStatusHelper;
+use App\Helper\SecurityTools;
 use App\Security\Voter\CommentVoter;
 use App\Security\Voter\EventVoter;
 use SchulIT\CommonBundle\Form\ConfirmType;
@@ -178,7 +179,7 @@ class EventController extends AbstractController {
     /**
      * @Route("/events/{uuid}/change_status", name="change_status")
      */
-    public function changeStatus(Request $request, Event $event) {
+    public function changeStatus(Request $request, Event $event, SecurityTools $securityTools) {
         $this->denyAccessUnlessGranted(EventVoter::CHANGE_STATUS, $event);
 
         $status = $request->request->get('status', null);
@@ -220,6 +221,7 @@ class EventController extends AbstractController {
             $participant = (new ParticipationStatus())
                 ->setEvent($event)
                 ->setUser($user)
+                ->setLinkToken($securityTools->getRandom())
                 ->setStatus($status);
             $em->persist($participant);
         }
